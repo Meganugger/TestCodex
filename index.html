@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=5.0, minimum-scale=1.0">
+    <meta name="description" content="StreamNow - Your ultimate destination for movies and series streaming">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>StreamNow - Premium Movies & Series</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Meganugger/Streamnow/main/StreamNow_logo-removebg-preview.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+    --primary:#ff0a54;
+    --primary-dark:#cc0844;
+    --primary-light:#ff3d7f;
+    --primary-glow:rgba(255,10,84,0.4);
+    --secondary:#7c3aed;
+    --accent:#00d4ff;
+    --accent-glow:rgba(0,212,255,0.3);
+    --gold:#fbbf24;
+    --success:#10b981;
+    --bg-primary:#0a0a0f;
+    --bg-secondary:#12121a;
+    --bg-tertiary:#1a1a24;
+    --bg-card:#16161f;
+    --bg-card-hover:#1e1e2a;
+    --bg-glass:rgba(22,22,31,0.85);
+    --bg-glass-light:rgba(255,255,255,0.03);
+    --border-primary:rgba(255,255,255,0.06);
+    --border-secondary:rgba(255,255,255,0.1);
+    --border-active:rgba(255,10,84,0.5);
+    --text-primary:#ffffff;
+	--text-secondary:#c8c8cf;
+	--text-muted:#8a8a95;
+    --shadow-sm:0 2px 8px rgba(0,0,0,0.3);
+    --shadow-md:0 8px 24px rgba(0,0,0,0.4);
+    --shadow-lg:0 16px 48px rgba(0,0,0,0.5);
+    --shadow-xl:0 24px 64px rgba(0,0,0,0.6);
+    --shadow-glow:0 0 40px var(--primary-glow);
+    --radius-sm:8px;
+    --radius-md:12px;
+    --radius-lg:16px;
+    --radius-xl:24px;
+    --radius-full:9999px;
+    --transition-fast:0.2s ease;
+	--transition-base:0.35s cubic-bezier(0.4,0,0.2,1);
+	--transition-slow:0.55s cubic-bezier(0.4,0,0.2,1);
+	--transition-bounce:0.65s cubic-bezier(0.34,1.56,0.64,1);
+    --header-height:80px;
+    --header-height-mobile:70px
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    background:var(--bg-primary);
+    color:var(--text-primary);
+    line-height:1.6;
+    overflow-x:hidden;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    -webkit-tap-highlight-color:transparent
+}
+body::before{
+    content:'';
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:
+        radial-gradient(ellipse 80% 50% at 20% -20%,rgba(255,10,84,0.12),transparent),
+        radial-gradient(ellipse 60% 40% at 80% 110%,rgba(124,58,237,0.08),transparent),
+        radial-gradient(ellipse 40% 30% at 50% 50%,rgba(0,212,255,0.04),transparent);
+    pointer-events:none;
+    z-index:-1
+}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--bg-secondary)}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--primary),var(--secondary));border-radius:var(--radius-full)}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,var(--primary-light),var(--primary))}
+::selection{background:var(--primary);color:var(--text-primary)}
+img{max-width:100%;height:auto;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{text-decoration:none;color:inherit}
+.header{
+    position:fixed;
+    top:0;left:0;right:0;
+    height:var(--header-height);
+    background:linear-gradient(180deg,rgba(10,10,15,0.98) 0%,rgba(10,10,15,0.95) 100%);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    z-index:1000;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 clamp(16px,4vw,48px);
+    border-bottom:1px solid var(--border-primary);
+    transition:var(--transition-base)
+}
+.header.scrolled{
+    height:calc(var(--header-height) - 10px);
+    background:rgba(10,10,15,0.99);
+    box-shadow:var(--shadow-lg)
+}
+.header__logo{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(1.5rem,3vw,2rem);
+    font-weight:700;
+    background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,0.9) 50%,var(--primary) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    letter-spacing:-0.02em;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition:var(--transition-base);
+    position:relative
+}
+.header__logo::after{
+    content:'';
+    position:absolute;
+    bottom:-4px;
+    left:48px;
+    right:0;
+    height:2px;
+    background:linear-gradient(90deg,var(--primary),transparent);
+    opacity:0;
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:var(--transition-base)
+}
+.header__logo:hover::after{
+    opacity:1;
+    transform:scaleX(1)
+}
+.header__logo:hover{
+    filter:drop-shadow(0 0 20px rgba(255,10,84,0.3))
+}
+.header__logo-icon{
+    width:40px;height:40px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    border-radius:var(--radius-md);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;
+    -webkit-text-fill-color:white;
+    box-shadow:0 4px 20px rgba(255,10,84,0.3);
+    transition:var(--transition-base)
+}
+.header__logo:hover .header__logo-icon{
+    transform:rotate(-5deg) scale(1.05);
+    box-shadow:0 6px 25px rgba(255,10,84,0.4)
+}
+.header__nav{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--bg-glass);
+    padding:6px;
+    border-radius:var(--radius-full);
+    border:1px solid var(--border-primary)
+}
+.nav__tab{
+    padding:12px 28px;
+    border-radius:var(--radius-full);
+    font-size:14px;
+    font-weight:600;
+    color:var(--text-secondary);
+    transition:var(--transition-base);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    position:relative;
+    overflow:hidden
+}
+.nav__tab::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    opacity:0;
+    transition:var(--transition-base);
+    border-radius:var(--radius-full)
+}
+.nav__tab:hover{color:var(--text-primary)}
+.nav__tab:hover::before{opacity:0.1}
+.nav__tab.active{color:var(--text-primary);background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:var(--shadow-glow)}
+.nav__tab.active::before{opacity:0}
+.nav__tab i{font-size:16px}
+.header__actions{display:flex;align-items:center;gap:16px}
+.search{position:relative;display:flex;align-items:center}
+.search__input{
+    width:280px;
+    padding:12px 44px 12px 20px;
+    background:var(--bg-glass);
+    border:1px solid var(--border-primary);
+    border-radius:var(--radius-full);
+    color:var(--text-primary);
+    font-size:14px;
+    transition:var(--transition-base);
+    outline:none
+}
+.search__input::placeholder{color:var(--text-muted)}
+.search__input:focus{
+    width:320px;
+    background:var(--bg-tertiary);
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px var(--primary-glow);
+    transition:all 0.4s cubic-bezier(0.4,0,0.2,1)
+}
+.search__icon{
+    position:absolute;
+    right:16px;
+    color:var(--text-muted);
+    font-size:16px;
+    pointer-events:none;
+    transition:var(--transition-base)
+}
+.search__input:focus+.search__icon{color:var(--primary)}
+.search__clear{
+    position:absolute;
+    right:40px;
+    width:20px;height:20px;
+    border-radius:var(--radius-full);
+    background:var(--text-muted);
+    color:var(--bg-primary);
+    font-size:10px;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    transition:var(--transition-fast)
+}
+.search__clear.visible{display:flex}
+.search__clear:hover{background:var(--primary)}
+.main{
+    padding-top:calc(var(--header-height) + 24px);
+    min-height:100vh;
+    padding-bottom:80px
+}
+.container{
+    max-width:1800px;
+    margin:0 auto;
+    padding:0 clamp(16px,4vw,48px)
+}
+.section{display:none;animation:fadeIn 0.4s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.section__header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:32px;
+    flex-wrap:wrap;
+    gap:16px
+}
+.section__title{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(1.5rem,3vw,2rem);
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:12px
+}
+.section__title-icon{
+    width:40px;height:40px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    border-radius:var(--radius-md);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px
+}
+.section__count{
+    font-size:14px;
+    font-weight:500;
+    color:var(--text-muted);
+    background:var(--bg-glass);
+    padding:6px 12px;
+    border-radius:var(--radius-full);
+    border:1px solid var(--border-primary)
+}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filter__btn{
+    padding:10px 20px;
+    border-radius:var(--radius-full);
+    font-size:13px;
+    font-weight:500;
+    color:var(--text-secondary);
+    background:var(--bg-glass);
+    border:1px solid var(--border-primary);
+    transition:var(--transition-base)
+}
+.filter__btn:hover{color:var(--text-primary);border-color:var(--border-secondary);background:var(--bg-card-hover)}
+.filter__btn.active{color:var(--text-primary);background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-color:transparent;box-shadow:var(--shadow-glow)}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:24px
+}
+.card{
+    position:relative;
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    background:var(--bg-card);
+    border:1px solid var(--border-primary);
+    transition:var(--transition-slow);
+    cursor:pointer;
+    aspect-ratio:2/3
+}
+.card::before{
+    content:'';
+    position:absolute;
+    inset:-1px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));
+    border-radius:var(--radius-lg);
+    opacity:0;
+    z-index:-1;
+    transition:var(--transition-base)
+}
+.card:hover{
+    transform:translateY(-8px) scale(1.02);
+    border-color:transparent;
+    box-shadow:var(--shadow-xl),var(--shadow-glow)
+}
+.card:hover::before{opacity:1}
+.card:focus-visible{outline:2px solid var(--primary);outline-offset:4px}
+.card__poster{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:var(--transition-slow)
+}
+.card:hover .card__poster{transform:scale(1.08);filter:brightness(0.6)}
+.card__gradient{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(0deg,rgba(10,10,15,1) 0%,rgba(10,10,15,0.8) 35%,transparent 65%);
+    opacity:0;
+    transition:var(--transition-base)
+}
+.card:hover .card__gradient{opacity:1}
+.card__content{
+    position:absolute;
+    bottom:0;left:0;right:0;
+    padding:20px;
+    transform:translateY(20px);
+    opacity:0;
+    transition:var(--transition-base);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center
+}
+.card:hover .card__content{transform:translateY(0);opacity:1}
+.card__badge{
+    position:absolute;
+    top:12px;right:12px;
+    padding:6px 10px;
+    background:rgba(0,0,0,0.75);
+    backdrop-filter:blur(10px);
+    border-radius:var(--radius-sm);
+    font-size:12px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    border:1px solid var(--border-secondary)
+}
+.card__badge--rating{color:var(--gold)}
+.card__badge--rating i{font-size:10px}
+.card__badge--year{
+    top:auto;bottom:12px;right:12px;
+    color:var(--text-secondary);
+    opacity:0;
+    transition:var(--transition-base)
+}
+.card:hover .card__badge--year{opacity:1}
+.card__title{
+    font-size:16px;
+    font-weight:700;
+    margin-bottom:8px;
+    line-height:1.3;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden
+}
+.card__genres{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:12px;
+    justify-content:center
+}
+.card__genre{
+    padding:4px 10px;
+    background:var(--bg-glass);
+    border:1px solid var(--border-secondary);
+    border-radius:var(--radius-full);
+    font-size:10px;
+    font-weight:500;
+    color:var(--text-secondary);
+    text-transform:uppercase;
+    letter-spacing:0.5px
+}
+.card__actions{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    width:100%
+}
+.card__btn{
+    flex:1;
+    max-width:120px;
+    padding:10px 16px;
+    border-radius:var(--radius-md);
+    font-size:12px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    transition:var(--transition-base);
+    text-transform:uppercase;
+    letter-spacing:0.5px
+}
+.card__btn--primary{
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+    color:var(--text-primary);
+    box-shadow:0 4px 16px var(--primary-glow)
+}
+.card__btn--primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--primary-glow)}
+.card__btn--secondary{
+    background:var(--bg-glass);
+    color:var(--text-primary);
+    border:1px solid var(--border-secondary)
+}
+.card__btn--secondary:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}
+.empty{
+    grid-column:1/-1;
+    text-align:center;
+    padding:80px 20px;
+    color:var(--text-secondary)
+}
+.empty__icon{font-size:64px;margin-bottom:24px;opacity:0.3}
+.empty__title{font-size:20px;font-weight:600;margin-bottom:8px;color:var(--text-primary)}
+.empty__text{font-size:14px}
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:2000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:40px 20px;
+    overflow-y:auto;
+    background:rgba(0,0,0,0.92);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+    animation:modalBgIn 0.3s ease
+}
+.modal.active{display:flex}
+@keyframes modalBgIn{from{opacity:0}to{opacity:1}}
+.modal__content{
+    width:100%;
+    max-width:900px;
+    background:linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-primary) 100%);
+    border-radius:var(--radius-xl);
+    border:1px solid var(--border-secondary);
+    overflow:hidden;
+    animation:modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 60px rgba(255,10,84,0.1);
+    position:relative;
+    margin:auto
+}
+@keyframes modalIn{from{opacity:0;transform:scale(0.92) translateY(30px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal__close{
+    position:absolute;
+    top:16px;right:16px;
+    width:44px;height:44px;
+    border-radius:var(--radius-full);
+    background:var(--bg-glass);
+    border:1px solid var(--border-secondary);
+    color:var(--text-secondary);
+    font-size:18px;
+    display:flex;align-items:center;justify-content:center;
+    transition:var(--transition-base);
+    z-index:10
+}
+.modal__close:hover{background:var(--primary);color:var(--text-primary);border-color:var(--primary);transform:rotate(90deg)}
+.modal__video-container{
+    width:100%;
+    aspect-ratio:21/9;
+    max-height:340px;
+    background:var(--bg-primary);
+    position:relative;
+    overflow:hidden
+}
+.modal__video{
+    width:100%;
+    height:100%;
+    border:none
+}
+.modal__header{
+    padding:24px 32px 20px;
+    text-align:center;
+    border-bottom:1px solid var(--border-primary);
+    background:linear-gradient(180deg,var(--bg-tertiary) 0%,var(--bg-secondary) 100%)
+}
+.modal__title{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(1.4rem,4vw,2rem);
+    font-weight:700;
+    margin-bottom:16px;
+    color:var(--text-primary);
+    line-height:1.2
+}
+.modal__meta{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:12px
+}
+.modal__meta-item{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    font-weight:500;
+    color:var(--text-primary);
+    padding:6px 14px;
+    background:var(--bg-glass);
+    border-radius:var(--radius-full);
+    border:1px solid var(--border-secondary)
+}
+.modal__meta-item i{color:var(--primary);font-size:11px}
+.modal__meta-item--rating{color:var(--gold)}
+.modal__meta-item--rating i{color:var(--gold)}
+.modal__body{
+    padding:24px 32px;
+    text-align:center
+}
+.modal__description{
+    font-size:15px;
+    line-height:1.8;
+    color:#e4e4e7;
+    max-width:750px;
+    margin:0 auto
+}
+.modal__actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    justify-content:center;
+    padding:0 40px 32px
+}
+.modal__btn{
+    padding:14px 32px;
+    border-radius:var(--radius-full);
+    font-size:14px;
+    font-weight:600;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    transition:var(--transition-base);
+    text-transform:uppercase;
+    letter-spacing:0.5px
+}
+.modal__btn--primary{
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+    color:var(--text-primary);
+    box-shadow:0 8px 24px var(--primary-glow)
+}
+.modal__btn--primary:hover{transform:translateY(-3px);box-shadow:0 12px 32px var(--primary-glow)}
+.modal__btn--secondary{
+    background:var(--bg-glass);
+    color:var(--text-primary);
+    border:1px solid var(--border-secondary)
+}
+.modal__btn--secondary:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}
+.episodes{
+    padding:32px 40px;
+    border-top:1px solid var(--border-primary);
+    background:rgba(0,0,0,0.2)
+}
+.episodes__title{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px
+}
+.episodes__title i{color:var(--primary)}
+.episodes__grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:16px
+}
+.episode{
+    display:flex;
+    gap:14px;
+    padding:14px;
+    background:var(--bg-card);
+    border-radius:var(--radius-lg);
+    border:1px solid var(--border-primary);
+    transition:var(--transition-base);
+    cursor:pointer;
+    align-items:center
+}
+.episode:hover{
+    background:var(--bg-card-hover);
+    border-color:var(--primary);
+    transform:translateY(-4px);
+    box-shadow:var(--shadow-md),0 0 20px rgba(255,10,84,0.1)
+}
+.episode__thumb{
+    width:120px;
+    min-width:120px;
+    aspect-ratio:16/9;
+    border-radius:var(--radius-md);
+    overflow:hidden;
+    position:relative
+}
+.episode__thumb img{width:100%;height:100%;object-fit:cover;transition:var(--transition-base)}
+.episode:hover .episode__thumb img{transform:scale(1.1)}
+.episode__play{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,0.5);
+    opacity:0;
+    transition:var(--transition-base)
+}
+.episode:hover .episode__play{opacity:1}
+.episode__play-icon{
+    width:36px;height:36px;
+    background:var(--primary);
+    border-radius:var(--radius-full);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;
+    transform:scale(0.8);
+    transition:var(--transition-bounce)
+}
+.episode:hover .episode__play-icon{transform:scale(1)}
+.episode__info{flex:1;min-width:0;text-align:left}
+.episode__title{
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:4px;
+    display:-webkit-box;
+    -webkit-line-clamp:1;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    color:var(--text-primary)
+}
+.episode__desc{
+    font-size:11px;
+    color:#b4b4bb;
+    line-height:1.5;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    margin-bottom:6px
+}
+.episode__duration{font-size:10px;color:var(--text-muted);display:flex;align-items:center;gap:4px}
+.episode__duration i{font-size:9px;color:var(--primary)}
+.toast{
+    position:fixed;
+    bottom:24px;right:24px;
+    padding:16px 24px;
+    background:var(--bg-card);
+    border:1px solid var(--border-secondary);
+    border-radius:var(--radius-lg);
+    font-size:14px;
+    font-weight:500;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    box-shadow:var(--shadow-lg);
+    z-index:3000;
+    transform:translateY(100px);
+    opacity:0;
+    transition:var(--transition-bounce)
+}
+.toast.active{transform:translateY(0);opacity:1}
+.toast__icon{width:32px;height:32px;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;font-size:14px}
+.toast--success .toast__icon{background:var(--success);color:var(--bg-primary)}
+.toast--error .toast__icon{background:var(--primary);color:var(--text-primary)}
+@media(max-width:1024px){
+    .header__nav{position:static;transform:none}
+    .search__input{width:200px}
+    .search__input:focus{width:240px}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px}
+}
+@media(max-width:768px){
+    :root{--header-height:130px}
+    .header{flex-direction:column;padding:10px;gap:8px;height:auto;min-height:130px}
+    .header__logo{font-size:1.3rem}
+    .header__logo-icon{width:30px;height:30px;font-size:13px}
+    .header__nav{width:100%;justify-content:center;order:3;padding:3px;gap:3px}
+    .nav__tab{padding:7px 14px;font-size:11px}
+    .header__actions{width:100%;order:2}
+    .search{width:100%}
+    .search__input{width:100%;padding:9px 38px 9px 14px;font-size:13px}
+    .search__input:focus{width:100%}
+    .main{padding-top:145px}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px}
+    .card__content{padding:14px}
+    .card__title{font-size:13px}
+    .card__btn{padding:7px 10px;font-size:10px}
+    .modal{padding:10px;align-items:flex-start}
+    .modal__content{border-radius:var(--radius-lg);margin:0}
+    .modal__header{padding:18px 16px 14px}
+    .modal__title{font-size:1.2rem;margin-bottom:12px}
+    .modal__meta{gap:8px}
+    .modal__meta-item{font-size:11px;padding:5px 10px}
+    .modal__video-container{aspect-ratio:16/9;max-height:180px}
+    .modal__body{padding:16px}
+    .modal__description{font-size:13px;line-height:1.7}
+    .modal__actions{padding:0 16px 18px;flex-direction:column;gap:10px}
+    .modal__btn{width:100%;justify-content:center;padding:11px 18px;font-size:12px}
+    .episodes{padding:18px 16px}
+    .episodes__title{font-size:16px}
+    .episodes__grid{grid-template-columns:1fr}
+    .section__header{flex-direction:column;align-items:flex-start}
+    .filters{width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+    .filter__btn{white-space:nowrap;flex-shrink:0;padding:7px 12px;font-size:11px}
+}
+@media(max-width:480px){
+    .header{padding:8px;gap:6px;min-height:115px}
+    .header__logo{font-size:1.15rem;gap:6px}
+    .header__logo-icon{width:26px;height:26px;font-size:11px}
+    .nav__tab{padding:6px 12px;font-size:10px}
+    .nav__tab i{display:none}
+    .main{padding-top:130px}
+    .grid{grid-template-columns:repeat(2,1fr);gap:10px}
+    .card{border-radius:var(--radius-md)}
+    .card__badge{padding:3px 6px;font-size:9px;top:6px;right:6px}
+    .card__badge--year{display:none}
+    .card__content{padding:10px}
+    .card__title{font-size:11px;margin-bottom:4px}
+    .card__genres{display:none}
+    .card__actions{flex-direction:column;gap:5px}
+    .card__btn{max-width:none;padding:6px;font-size:9px}
+    .modal__header{padding:14px 12px 12px}
+    .modal__title{font-size:1.1rem;margin-bottom:10px}
+    .modal__meta{gap:6px}
+    .modal__meta-item{font-size:10px;padding:4px 8px}
+    .modal__video-container{max-height:150px}
+    .modal__body{padding:14px 12px}
+    .modal__close{top:8px;right:8px;width:32px;height:32px;font-size:12px}
+    .modal__description{font-size:12px;line-height:1.6}
+    .modal__actions{padding:0 12px 14px;gap:8px}
+    .modal__btn{padding:10px 14px;font-size:11px}
+    .episode{padding:10px;gap:10px}
+    .episode__thumb{width:75px;min-width:75px}
+    .episode__title{font-size:11px}
+    .episode__desc{font-size:10px}
+    .section__title{font-size:1.05rem}
+    .section__title-icon{width:26px;height:26px;font-size:11px}
+    .section__count{font-size:10px;padding:4px 8px}
+    .episodes{padding:14px 12px}
+    .episodes__title{font-size:14px;margin-bottom:16px}
+}
+@media(max-width:360px){
+    .header{padding:6px;gap:5px}
+    .header__logo{font-size:1rem}
+    .header__logo-icon{width:24px;height:24px;font-size:10px}
+    .header__nav{padding:2px}
+    .nav__tab{padding:5px 10px;font-size:9px}
+    .search__input{padding:7px 34px 7px 10px;font-size:11px}
+    .grid{grid-template-columns:repeat(2,1fr);gap:8px}
+    .card__btn span{display:none}
+    .main{padding-top:125px;padding-bottom:40px}
+    .modal__header{padding:12px 10px 10px}
+    .modal__title{font-size:1rem}
+    .modal__video-container{max-height:130px}
+    .modal__body{padding:12px 10px}
+    .modal__description{font-size:11px}
+    .modal__actions{padding:0 10px 12px}
+    .modal__btn{padding:9px 12px;font-size:10px}
+    .section__title{font-size:1rem}
+}
+@media(hover:none) and (pointer:coarse){
+    .card__gradient{opacity:1}
+    .card__content{opacity:1;transform:translateY(0)}
+    .card__badge--year{opacity:1}
+    .card:hover{transform:none}
+    .card:hover .card__poster{transform:none;filter:none}
+    .card:active{transform:scale(0.98)}
+    .episode:hover{transform:none}
+    .episode:active{transform:scale(0.99)}
+}
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important}
+    html{scroll-behavior:auto}
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+</head>
+<body>
+    <header class="header" id="header">
+        <a href="#" class="header__logo">
+            <span class="header__logo-icon"><i class="fas fa-play"></i></span>
+            StreamNow
+        </a>
+        <nav class="header__nav" role="navigation">
+            <button class="nav__tab active" data-tab="movies" aria-pressed="true">
+                <i class="fas fa-film"></i>
+                <span>Movies</span>
+            </button>
+            <button class="nav__tab" data-tab="series" aria-pressed="false">
+                <i class="fas fa-tv"></i>
+                <span>Series</span>
+            </button>
+        </nav>
+        <div class="header__actions">
+            <div class="search">
+                <input type="text" class="search__input" id="searchInput" placeholder="Search titles, genres..." autocomplete="off">
+                <button class="search__clear" id="searchClear"><i class="fas fa-times"></i></button>
+                <i class="fas fa-search search__icon"></i>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <div class="container">
+            <section class="section active" id="moviesSection">
+                <div class="section__header">
+                    <h1 class="section__title">
+                        <span class="section__title-icon"><i class="fas fa-film"></i></span>
+                        Movies
+                        <span class="section__count" id="moviesCount">0 titles</span>
+                    </h1>
+                    <div class="filters" id="movieFilters"></div>
+                </div>
+                <div class="grid" id="moviesGrid"></div>
+            </section>
+            <section class="section" id="seriesSection">
+                <div class="section__header">
+                    <h1 class="section__title">
+                        <span class="section__title-icon"><i class="fas fa-tv"></i></span>
+                        Series
+                        <span class="section__count" id="seriesCount">0 titles</span>
+                    </h1>
+                    <div class="filters" id="seriesFilters"></div>
+                </div>
+                <div class="grid" id="seriesGrid"></div>
+            </section>
+        </div>
+    </main>
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+		<div class="modal__content">
+			<button class="modal__close" id="modalClose" aria-label="Close modal">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="modal__header">
+            <h2 class="modal__title" id="modalTitle"></h2>
+            <div class="modal__meta" id="modalMeta"></div>
+        </div>
+        <div class="modal__video-container">
+            <iframe class="modal__video" id="modalVideo" allowfullscreen title="Video player"></iframe>
+        </div>
+        <div class="modal__body">
+            <p class="modal__description" id="modalDescription"></p>
+        </div>
+        <div class="modal__actions" id="modalActions"></div>
+        <div class="episodes" id="episodesSection" style="display:none">
+            <h3 class="episodes__title"><i class="fas fa-list"></i> Episodes</h3>
+            <div class="episodes__grid" id="episodesGrid"></div>
+			</div>
+		</div>
+	</div>
+    <div class="toast" id="toast">
+        <span class="toast__icon"><i class="fas fa-check"></i></span>
+        <span class="toast__message"></span>
+    </div>
+	<script>
+const movies = [
+    {
+        id: 1,
+        title: "Garfield: Héros malgré lui",
+        poster: "https://image.tmdb.org/t/p/w1280/zSQM2Zud5G5nrdEA4t0CtFZQF22.jpg",
+        description: "Le célèbre chat d'intérieur, amateur de lasagnes et qui déteste les lundis, est sur le point d'être embarqué dans une folle aventure.",
+        rating: 7.2,
+        year: 2024,
+        genre: "Animation, Comedy",
+        genres: ["Animation", "Comedy", "Family"],
+        streamUrl: "https://www.youtube.com/embed/cldTF5e8wpQ",
+        trailerUrl: "https://www.youtube.com/watch?v=cldTF5e8wpQ",
+        watchUrl: "https://drive.google.com/file/d/1ApwtxNupjkD4QNDNh_v42HX10Ok42s_B/view?usp=sharing"
+    },
+    {
+        id: 2,
+        title: "Avengers: Infinity War",
+        poster: "https://fr.web.img3.acsta.net/c_310_420/pictures/18/03/16/14/42/0611719.jpg",
+        description: "Les Avengers et leurs alliés devront être prêts à tout sacrifier pour neutraliser le redoutable Thanos avant que son attaque éclair ne conduise à la destruction complète de l'univers.",
+        rating: 8.4,
+        year: 2018,
+        genre: "Action, Adventure, Sci-Fi",
+        genres: ["Action", "Adventure", "Sci-Fi"],
+        streamUrl: "https://www.youtube.com/embed/eIWs2IUr3Vs",
+        trailerUrl: "https://www.youtube.com/watch?v=eIWs2IUr3Vs",
+        watchUrl: "https://drive.google.com/file/d/1ZT15Vi1CLBD-tQRBn9fJQGeIJTOu-RIC/view?usp=sharing"
+    },
+    {
+        id: 3,
+        title: "Avengers: Endgame",
+        poster: "https://fr.web.img6.acsta.net/c_310_420/pictures/19/04/04/09/04/0472053.jpg",
+        description: "Thanos ayant anéanti la moitié de l'univers, les Avengers restants resserrent les rangs dans ce vingt-deuxième film des Studios Marvel.",
+        rating: 8.4,
+        year: 2019,
+        genre: "Action, Adventure, Sci-Fi",
+        genres: ["Action", "Adventure", "Sci-Fi"],
+        streamUrl: "https://www.youtube.com/embed/wV-Q0o2OQjQ",
+        trailerUrl: "https://www.youtube.com/watch?v=wV-Q0o2OQjQ",
+        watchUrl: "https://drive.google.com/file/d/1RNG1RqwHgQG6MMurrFqSOKa5esuAfWTj/view?usp=sharing"
+    },
+    {
+        id: 4,
+        title: "Deadpool & Wolverine",
+        poster: "https://fr.web.img3.acsta.net/c_310_420/img/e4/cd/e4cd101f2e66f4e7818fcf53d05c006a.jpg",
+        description: "Après avoir échoué à rejoindre l'équipe des Avengers, Wade Wilson passe d'un petit boulot à un autre sans vraiment trouver sa voie.",
+        rating: 8.7,
+        year: 2024,
+        genre: "Action, Adventure, Comedy",
+        genres: ["Action", "Adventure", "Comedy"],
+        streamUrl: "https://www.youtube.com/embed/KT-8QL04x40",
+        trailerUrl: "https://www.youtube.com/watch?v=KT-8QL04x40",
+        watchUrl: "https://drive.google.com/file/d/1vH1vyv-hJmflULxL6kBOB45QH0jpnKMN/view?usp=sharing"
+    },
+    {
+        id: 5,
+        title: "Spider-Man: Across the Spider-Verse",
+        poster: "https://fr.web.img6.acsta.net/c_310_420/pictures/23/05/11/10/00/1986933.jpg",
+        description: "Après avoir retrouvé Gwen Stacy, Spider-Man est catapulté à travers le Multivers, où il rencontre une équipe de Spider-Héros.",
+        rating: 8.7,
+        year: 2023,
+        genre: "Animation, Action, Adventure",
+        genres: ["Animation", "Action", "Adventure"],
+        streamUrl: "https://www.youtube.com/embed/iZSRP2UYtO4",
+        trailerUrl: "https://www.youtube.com/watch?v=iZSRP2UYtO4",
+        watchUrl: "https://drive.google.com/file/d/1_3f2Us77TF71N0Il1lRxa2qFddn4kGEt/view?usp=sharing"
+    },
+    {
+        id: 6,
+        title: "Le Robot Sauvage",
+        poster: "https://fr.web.img3.acsta.net/c_310_420/img/7a/10/7a1098f21c765b7d4935240e1af094ed.jpg",
+        description: "Une unité ROZZUM 7134 alias 'Roz' qui après avoir fait naufrage sur une île déserte doit apprendre à adapter à un environnement hostile.",
+        rating: 7.9,
+        year: 2024,
+        genre: "Animation, Adventure",
+        genres: ["Animation", "Adventure", "Family"],
+        streamUrl: "https://www.youtube.com/embed/3iHLk8nHX80",
+        trailerUrl: "https://www.youtube.com/watch?v=3iHLk8nHX80",
+        watchUrl: "https://drive.google.com/file/d/1xF2FVX4bxJvVYeWMqxoXy4uchKQAPdlq/view?usp=sharing"
+    },
+    {
+        id: 7,
+        title: "Captain America: Civil War",
+        poster: "https://fr.web.img3.acsta.net/c_310_420/pictures/16/03/11/09/46/182814.jpg",
+        description: "Steve Rogers est désormais à la tête des Avengers, dont la mission est de protéger l'humanité.",
+        rating: 7.8,
+        year: 2016,
+        genre: "Action, Adventure, Sci-Fi",
+        genres: ["Action", "Adventure", "Sci-Fi"],
+        streamUrl: "https://www.youtube.com/embed/fuIIGDjEj8Q",
+        trailerUrl: "https://www.youtube.com/watch?v=fuIIGDjEj8Q",
+        watchUrl: "https://drive.google.com/file/d/12o6V7hZgB5e_C69rnp9lp901D60smHyo/view?usp=sharing"
+    },
+    {
+        id: 8,
+        title: "Moi, Moche et Méchant 4",
+        poster: "https://fr.web.img5.acsta.net/c_310_420/img/cb/3d/cb3d42b81f3003e54a90fd77ddabaf14.jpg",
+        description: "Gru et sa famille doivent fuir face à un nouvel ennemi, Maxime Le Mal.",
+        rating: 7.0,
+        year: 2024,
+        genre: "Animation, Adventure, Comedy",
+        genres: ["Animation", "Adventure", "Comedy"],
+        streamUrl: "https://www.youtube.com/embed/2i776vPid38",
+        trailerUrl: "https://www.youtube.com/watch?v=2i776vPid38",
+        watchUrl: "https://drive.google.com/file/d/1oX-12Waj_VRdmz7KV4AYKjLyOy3BkIBH/view?usp=sharing"
+    },
+    {
+        id: 9,
+        title: "One Piece Film - Red",
+        poster: "https://fr.web.img2.acsta.net/c_310_420/pictures/22/06/08/13/18/5161934.jpg",
+        description: "Luffy et son équipage assistent à un festival de musique où la chanteuse Uta va révéler sa puissance exceptionnelle.",
+        rating: 7.3,
+        year: 2022,
+        genre: "Animation, Action, Adventure",
+        genres: ["Animation", "Action", "Adventure"],
+        streamUrl: "https://www.youtube.com/embed/XfkjE-NbYyA",
+        trailerUrl: "https://www.youtube.com/watch?v=XfkjE-NbYyA",
+        watchUrl: "https://drive.google.com/file/d/1wNcFqC5jSVR9QLYnJ5pVzQXaJhGR2V3n/view?usp=sharing"
+    },
+    {
+        id: 10,
+        title: "Sonic 2 le film",
+        poster: "https://fr.web.img3.acsta.net/c_310_420/pictures/22/03/14/15/39/4137538.jpg",
+        description: "Sonic veut prouver qu'il a l'étoffe d'un véritable héros quand le Dr Robotnik refait son apparition.",
+        rating: 7.0,
+        year: 2022,
+        genre: "Action, Adventure, Comedy",
+        genres: ["Action", "Adventure", "Comedy"],
+        streamUrl: "https://www.youtube.com/embed/AXuhIwEz1qI",
+        trailerUrl: "https://www.youtube.com/watch?v=AXuhIwEz1qI",
+        watchUrl: "https://drive.google.com/file/d/1Mrd2aaTp8QyHX7nkrEKhoNxfARx2HCQl/view?usp=sharing"
+    },
+    {
+        id: 11,
+        title: "Dragon Ball Super: Super Hero",
+        poster: "https://image.tmdb.org/t/p/w1280/eGQ3XOWBBZwayO0j7era9L7Is5V.jpg",
+        description: "L'armée du Ruban Rouge crée les cyborgs ultimes, Gamma 1 et Gamma 2, qui lancent une attaque contre Piccolo et Son Gohan.",
+        rating: 7.1,
+        year: 2022,
+        genre: "Animation, Action, Adventure",
+        genres: ["Animation", "Action", "Adventure"],
+        streamUrl: "https://www.youtube.com/embed/oWMbSVLE-Fc",
+        trailerUrl: "https://www.youtube.com/watch?v=oWMbSVLE-Fc",
+        watchUrl: "https://drive.google.com/file/d/1GrOZ6ltpoT9MBI1RNCzhBBU1j5kcYvXw/view?usp=sharing"
+    },
+    {
+        id: 12,
+        title: "Dragon Ball Super: Broly",
+        poster: "https://fr.web.img6.acsta.net/c_310_420/pictures/19/02/22/16/14/0019120.jpg",
+        description: "Goku et Vegeta font face à un nouvel ennemi, le Super Saïyen Légendaire Broly.",
+        rating: 7.9,
+        year: 2018,
+        genre: "Animation, Action, Adventure",
+        genres: ["Animation", "Action", "Adventure"],
+        streamUrl: "https://www.youtube.com/embed/PW8fyoQhJEE",
+        trailerUrl: "https://www.youtube.com/watch?v=PW8fyoQhJEE",
+        watchUrl: "https://drive.google.com/file/d/1ToSruIUlqLcLYg1Y6mlOKrs1d9AtiXkl/view?usp=sharing"
+    },
+    {
+        id: 13,
+        title: "Vice-Versa 2",
+        poster: "https://fr.web.img5.acsta.net/c_310_420/img/f5/4c/f54c3310f101fe8ae4bba9e566bca1b5.jpg",
+        description: "Riley est désormais une adolescente, ce qui déclenche l'arrivée de nouvelles émotions au quartier général.",
+        rating: 8.0,
+        year: 2024,
+        genre: "Animation, Adventure, Comedy",
+        genres: ["Animation", "Adventure", "Comedy"],
+        streamUrl: "https://www.youtube.com/embed/exg3nieXnqQ",
+        trailerUrl: "https://www.youtube.com/watch?v=exg3nieXnqQ",
+        watchUrl: "https://drive.google.com/file/d/1oeHSVN3PF1OUufyhMJv-jsXniuHufuNf/view?usp=sharing"
+    },
+    {
+        id: 14,
+        title: "Vice Versa",
+        poster: "https://fr.web.img3.acsta.net/c_310_420/pictures/15/04/16/13/58/571071.jpg",
+        description: "Au Quartier Général de Riley, cinq Émotions veillent à son bonheur.",
+        rating: 8.1,
+        year: 2015,
+        genre: "Animation, Adventure, Comedy",
+        genres: ["Animation", "Adventure", "Comedy"],
+        streamUrl: "https://www.youtube.com/embed/J4_8jijwNs0",
+        trailerUrl: "https://www.youtube.com/watch?v=J4_8jijwNs0",
+        watchUrl: "https://drive.google.com/file/d/11xQZE9KdMrjBRL23gX4pv471hA-PKpr6/view?usp=sharing"
+    },
+    {
+        id: 15,
+        title: "Venom: The Last Dance",
+        poster: "https://fr.web.img3.acsta.net/c_310_420/img/57/b3/57b356018fe053ff81efa47e79cfb780.jpg",
+        description: "Eddie et Venom sont en cavale, traqués par leurs semblables.",
+        rating: 6.9,
+        year: 2024,
+        genre: "Action, Adventure, Sci-Fi",
+        genres: ["Action", "Adventure", "Sci-Fi"],
+        streamUrl: "https://www.youtube.com/embed/TEg5kTBN22I",
+        trailerUrl: "https://www.youtube.com/watch?v=TEg5kTBN22I",
+        watchUrl: "https://drive.google.com/file/d/154gjfRB47ib83pO21LkHQmHPAepFc_I3/view?usp=sharing"
+    },
+    {
+        id: 16,
+        title: "Spider-Man: No Way Home",
+        poster: "https://fr.web.img2.acsta.net/c_310_420/pictures/21/11/16/10/01/4860598.jpg",
+        description: "Spider-Man est démasqué et demande l'aide de Doctor Strange, ce qui rend les enjeux encore plus dangereux.",
+        rating: 8.2,
+        year: 2021,
+        genre: "Action, Adventure, Fantasy",
+        genres: ["Action", "Adventure", "Fantasy"],
+        streamUrl: "https://www.youtube.com/embed/4InqzlHb9zE",
+        trailerUrl: "https://www.youtube.com/watch?v=4InqzlHb9zE",
+        watchUrl: "https://drive.google.com/file/d/1UnMTOag0ZFW9Osu4XRYcfsV8qjPp-Yz8/view?usp=sharing"
+    },
+    {
+        id: 17,
+        title: "Sonic 3 - le film",
+        poster: "https://fr.web.img2.acsta.net/c_310_420/img/85/e7/85e77c51c172da4aec13679210295a11.jpg",
+        description: "Sonic, Knuckles et Tails se retrouvent face à un nouvel adversaire, Shadow, mystérieux et puissant ennemi aux pouvoirs inédits.",
+        rating: 7.5,
+        year: 2024,
+        genre: "Action, Adventure, Comedy",
+        genres: ["Action", "Adventure", "Comedy"],
+        streamUrl: "https://www.youtube.com/embed/TQ-9We-lxiA",
+        trailerUrl: "https://www.youtube.com/watch?v=TQ-9We-lxiA",
+        watchUrl: "https://drive.google.com/file/d/1CXOFUQDuo3krIGvXhmtV-LXGeQo_vQ8b/view?usp=sharing"
+    },
+    {
+        id: 18,
+        title: "Sonic le film",
+        poster: "https://fr.web.img6.acsta.net/c_310_420/pictures/20/02/10/17/16/0746079.jpg",
+        description: "L'histoire du hérisson bleu le plus rapide du monde qui arrive sur Terre, sa nouvelle maison.",
+        rating: 6.8,
+        year: 2020,
+        genre: "Action, Adventure, Comedy",
+        genres: ["Action", "Adventure", "Comedy"],
+        streamUrl: "https://www.youtube.com/embed/NCZTYdAP6w0",
+        trailerUrl: "https://www.youtube.com/watch?v=NCZTYdAP6w0",
+        watchUrl: "https://drive.google.com/file/d/1wdpsW_7PkkOaZKoWyBhA-4mk46wiVCqK/view?usp=sharing"
+    },
+    {
+        id: 19,
+        title: "Mufasa : Le Roi Lion",
+        poster: "https://fr.web.img6.acsta.net/c_310_420/img/f5/f2/f5f2447c4246e42eb3e69040605d7cf1.jpg",
+        description: "Rafiki raconte à la jeune lionne Kiara la légende de Mufasa, un lionceau orphelin qui deviendra roi.",
+        rating: 7.3,
+        year: 2024,
+        genre: "Animation, Adventure, Drama",
+        genres: ["Animation", "Adventure", "Drama"],
+        streamUrl: "https://www.youtube.com/embed/2rWXguw0S-k",
+        trailerUrl: "https://www.youtube.com/watch?v=2rWXguw0S-k",
+        watchUrl: "https://drive.google.com/file/d/1lhpfp2aeM21aJoqMts2MUunNE5iNd9FT/view?usp=sharing"
+    },
+    {
+        id: 20,
+        title: "Vaiana 2",
+        poster: "https://fr.web.img4.acsta.net/c_310_420/img/9e/c9/9ec9a076d8516b78e1923dd76806f13e.jpg",
+        description: "Après avoir reçu une invitation inattendue de ses ancêtres, Vaiana entreprend un périple dangereux.",
+        rating: 7.4,
+        year: 2024,
+        genre: "Animation, Adventure, Comedy",
+        genres: ["Animation", "Adventure", "Comedy"],
+        streamUrl: "https://www.youtube.com/embed/HrVJe2P9Uuk",
+        trailerUrl: "https://www.youtube.com/watch?v=HrVJe2P9Uuk",
+        watchUrl: "https://drive.google.com/file/d/1Tf4uzbHXi5DsKinIgdYnik9lTEkH0FQY/view?usp=sharing"
+    },
+    {
+        id: 21,
+        title: "Vaiana",
+        poster: "https://fr.web.img6.acsta.net/c_310_420/pictures/16/09/14/09/17/148002.jpg",
+        description: "Il y a 3 000 ans, les plus grands marins du monde voyagèrent dans le vaste océan Pacifique.",
+        rating: 7.7,
+        year: 2016,
+        genre: "Animation, Adventure, Comedy",
+        genres: ["Animation", "Adventure", "Comedy"],
+        streamUrl: "https://www.youtube.com/embed/JIl74jge_Wg",
+        trailerUrl: "https://www.youtube.com/watch?v=JIl74jge_Wg",
+        watchUrl: "https://drive.google.com/file/d/1Fd_iJkTlQ-4ZDqrXKmHQ8Wdbmua-zEfA/view?usp=sharing"
+    },
+    {
+        id: 22,
+        title: "Minecraft, Le Film",
+        poster: "https://fr.web.img3.acsta.net/r_1920_1080/img/f4/24/f42460263af69c48ace84e186660d29b.jpg",
+        description: "Bienvenue dans l'univers de Minecraft où la créativité est essentielle à la survie !",
+        rating: 6.8,
+        year: 2025,
+        genre: "Animation, Adventure, Comedy",
+        genres: ["Animation", "Adventure", "Comedy"],
+        streamUrl: "https://www.youtube.com/embed/E9slRynYcmI",
+        trailerUrl: "https://www.youtube.com/watch?v=E9slRynYcmI",
+        watchUrl: "https://drive.google.com/file/d/1PM1pzJ4FZYUpRqoGRlwZQYuOMm1S7KGc/view?usp=sharing"
+    },
+    {
+        id: 23,
+        title: "Captain America: Brave New World",
+        poster: "https://fr.web.img6.acsta.net/c_310_420/img/92/55/9255d9aeb17004f6a622cc47e573777e.jpg",
+        description: "Sam Wilson se retrouve plongé au coeur d'un gigantesque incident international.",
+        rating: 7.4,
+        year: 2025,
+        genre: "Action, Adventure, Sci-Fi",
+        genres: ["Action", "Adventure", "Sci-Fi"],
+        streamUrl: "https://www.youtube.com/embed/Hh9fV_5iP2Q",
+        trailerUrl: "https://www.youtube.com/watch?v=Hh9fV_5iP2Q",
+        watchUrl: "https://drive.google.com/file/d/1CSzTO5MxEkCPSBlRh9ZEH0oETZtcAx-p/view?usp=sharing"
+    },
+    {
+        id: 24,
+        title: "The Amazing Spider-Man",
+        poster: "https://fr.web.img4.acsta.net/c_310_420/medias/nmedia/18/83/19/35/20158079.jpg",
+        description: "Peter Parker essaie de comprendre qui il est et d'accepter son parcours.",
+        rating: 7.0,
+        year: 2012,
+        genre: "Action, Adventure, Fantasy",
+        genres: ["Action", "Adventure", "Fantasy"],
+        streamUrl: "https://www.youtube.com/embed/mJlDpguadbk",
+        trailerUrl: "https://www.youtube.com/watch?v=mJlDpguadbk",
+        watchUrl: "https://drive.google.com/file/d/14EJ-xcfduhOYF9JHHE8RnoF_EqPzLJWJ/view?usp=sharing"
+    },
+    {
+        id: 25,
+        title: "The Amazing Spider-Man 2",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/rZ47R21ZGNTGr5ORxdMmxQWdcFn.jpg",
+        description: "Peter Parker va se rendre compte qu'il fait face à un conflit de bien plus grande ampleur.",
+        rating: 6.9,
+        year: 2014,
+        genre: "Action, Adventure, Fantasy",
+        genres: ["Action", "Adventure", "Fantasy"],
+        streamUrl: "https://www.youtube.com/embed/9sytzAZL1l8",
+        trailerUrl: "https://www.youtube.com/watch?v=9sytzAZL1l8",
+        watchUrl: "https://drive.google.com/file/d/1Tr_0UtEGhi4IrpkUPqmM3mvLT_9228SV/view?usp=sharing"
+    },
+    {
+        id: 26,
+        title: "Harry Potter à l'école des sorciers",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/fbxQ44VRdM2PVzHSNajUseUteem.jpg",
+        description: "Orphelin, le jeune Harry Potter peut enfin quitter ses tyranniques oncle et tante Dursley.",
+        rating: 7.7,
+        year: 2001,
+        genre: "Action, Fantasy",
+        genres: ["Action", "Fantasy", "Adventure"],
+        streamUrl: "https://www.youtube.com/embed/P1BGgqhVGAI",
+        trailerUrl: "https://www.youtube.com/watch?v=P1BGgqhVGAI",
+        watchUrl: "https://drive.google.com/file/d/1dT7n-mbuLSAU_mCRENK_ZHkj2vbeAfR9/view?usp=sharing"
+    },
+    {
+        id: 27,
+        title: "Harry Potter et la Chambre des secrets",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/8KpHRokGpiaqEGpjYe0rpywtvUx.jpg",
+        description: "Harry rejoint l'École des Sorciers où il parvient à élucider le mystère de la Chambre des secrets.",
+        rating: 7.4,
+        year: 2002,
+        genre: "Adventure, Fantasy",
+        genres: ["Adventure", "Fantasy", "Mystery"],
+        streamUrl: "https://www.youtube.com/embed/5Xngrhn4seA",
+        trailerUrl: "https://www.youtube.com/watch?v=5Xngrhn4seA",
+        watchUrl: "https://drive.google.com/file/d/1MQQCLvIj3yNPXiUwwGHDpOHBTNEWQshG/view?usp=sharing"
+    },
+    {
+        id: 28,
+        title: "Harry Potter et le Prisonnier d'Azkaban",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/gyGpS7eWG74H1w48O7yoGmkiSSY.jpg",
+        description: "Sirius Black s'échappe de la prison d'Azkaban avec un seul but : retrouver Harry Potter.",
+        rating: 7.8,
+        year: 2004,
+        genre: "Adventure, Fantasy",
+        genres: ["Adventure", "Fantasy", "Mystery"],
+        streamUrl: "https://www.youtube.com/embed/CLncEeVf4ks",
+        trailerUrl: "https://www.youtube.com/watch?v=CLncEeVf4ks",
+        watchUrl: "https://drive.google.com/file/d/1-dm0iuSP8OyJdcXj-B-HIxaLJbIYFNfL/view?usp=sharing"
+    },
+    {
+        id: 29,
+        title: "Harry Potter et la Coupe de feu",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/hBak1pn5pbI4ycAbrgMMn1YI7P1.jpg",
+        description: "La quatrième année à Poudlard est marquée par le Tournoi des trois sorciers.",
+        rating: 7.7,
+        year: 2005,
+        genre: "Adventure, Fantasy",
+        genres: ["Adventure", "Fantasy", "Mystery"],
+        streamUrl: "https://www.youtube.com/embed/8Mvo64z9doU",
+        trailerUrl: "https://www.youtube.com/watch?v=8Mvo64z9doU",
+        watchUrl: "https://drive.google.com/file/d/1Oe9d21Z_0C1nnsBaT5EMzmPb02lmB8CS/view?usp=sharing"
+    },
+    {
+        id: 30,
+        title: "Harry Potter et l'Ordre du Phénix",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/9ZfpCVNx0y8jpColnnfdA1HI4Zb.jpg",
+        description: "Harry découvre qu'une partie de la communauté des sorciers refuse d'accepter le retour de Voldemort.",
+        rating: 7.5,
+        year: 2007,
+        genre: "Adventure, Fantasy",
+        genres: ["Adventure", "Fantasy", "Mystery"],
+        streamUrl: "https://www.youtube.com/embed/3VQlEJxoBN4",
+        trailerUrl: "https://www.youtube.com/watch?v=3VQlEJxoBN4",
+        watchUrl: "https://drive.google.com/file/d/13M2kFv5nX6YNuvk-1HsSHrhK93R_JGXH/view?usp=sharing"
+    },
+    {
+        id: 31,
+        title: "Harry Potter et le Prince de sang-mêlé",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/A4WWOzWUASfUeESXxduQxVmoD7t.jpg",
+        description: "Dumbledore prépare Harry pour la bataille finale contre Voldemort.",
+        rating: 7.6,
+        year: 2009,
+        genre: "Adventure, Fantasy",
+        genres: ["Adventure", "Fantasy", "Mystery"],
+        streamUrl: "https://www.youtube.com/embed/7GIoHjLOZyA",
+        trailerUrl: "https://www.youtube.com/watch?v=7GIoHjLOZyA",
+        watchUrl: "https://drive.google.com/file/d/11nZj3Pwpjqm0EKpc8Yw1jCsX4k2PcdGP/view?usp=sharing"
+    },
+    {
+        id: 32,
+        title: "Harry Potter et les Reliques de la mort - 1ère partie",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/yJm61MmTMjOmNXxPxdoaIkdqnOm.jpg",
+        description: "Harry, Ron et Hermione s'engagent dans une quête pour retrouver et détruire les Horcruxes.",
+        rating: 7.7,
+        year: 2010,
+        genre: "Adventure, Fantasy",
+        genres: ["Adventure", "Fantasy", "Mystery"],
+        streamUrl: "https://www.youtube.com/embed/TtOHsprO25g",
+        trailerUrl: "https://www.youtube.com/watch?v=TtOHsprO25g",
+        watchUrl: "https://drive.google.com/file/d/1935aOZX5ksDdtc4zG-pTl1BEk5mrfBG_/view?usp=sharing"
+    },
+    {
+        id: 33,
+        title: "Harry Potter et les Reliques de la mort - 2ème partie",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/alQOPmKEPHkH4BLMEla1vTNYrUr.jpg",
+        description: "L'ultime épreuve de force entre Harry et Voldemort approche.",
+        rating: 8.1,
+        year: 2011,
+        genre: "Adventure, Fantasy",
+        genres: ["Adventure", "Fantasy", "Action"],
+        streamUrl: "https://www.youtube.com/embed/aiaIfICU-Tk",
+        trailerUrl: "https://www.youtube.com/watch?v=aiaIfICU-Tk",
+        watchUrl: "https://drive.google.com/file/d/12PxDwhdqDFTqIVmMDiNuyIE2guUafo21/view?usp=sharing"
+    },
+    {
+        id: 34,
+        title: "Spider-Man",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/pNz1NREgddPdlzytlR8mW4B26fW.jpg",
+        description: "Élevé par sa tante et son oncle, Peter Parker est mordu par une araignée radioactive et développe des pouvoirs.",
+        rating: 7.4,
+        year: 2002,
+        genre: "Action, Sci-Fi",
+        genres: ["Action", "Sci-Fi"],
+        streamUrl: "https://www.youtube.com/embed/gPq1QHkje6E",
+        trailerUrl: "https://www.youtube.com/watch?v=gPq1QHkje6E",
+        watchUrl: "https://drive.google.com/file/d/1pdXsjvNpmhGWGQ6WtlYVVTIN2LIlHWDt/view?usp=sharing"
+    },
+    {
+        id: 35,
+        title: "Spider-Man 2",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/m8X5HdADsW5YdmVNjwTOArMOUoL.jpg",
+        description: "Deux ans après être devenu Spider-Man, Peter ne gère plus sa double vie.",
+        rating: 7.5,
+        year: 2004,
+        genre: "Action, Sci-Fi",
+        genres: ["Action", "Sci-Fi"],
+        streamUrl: "https://www.youtube.com/embed/39RDO9FLtvY",
+        trailerUrl: "https://www.youtube.com/watch?v=39RDO9FLtvY",
+        watchUrl: "https://drive.google.com/file/d/1zjfXsjByZp7akcpfNZr7a9o2h9cVqAt2/view?usp=sharing"
+    },
+    {
+        id: 36,
+        title: "Spider-Man 3",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/hPkfodeYB0ZqBjxaynsEdXl0bbR.jpg",
+        description: "Peter est heureux avec Mary Jane et veut l'épouser. Une météorite libère une étrange matière noire.",
+        rating: 6.3,
+        year: 2007,
+        genre: "Action, Sci-Fi",
+        genres: ["Action", "Sci-Fi"],
+        streamUrl: "https://www.youtube.com/embed/qK7nMGNlHgk",
+        trailerUrl: "https://www.youtube.com/watch?v=qK7nMGNlHgk",
+        watchUrl: "https://drive.google.com/file/d/126CMES2waqNtSN7kjUOuhJsr4HGOKHLu/view?usp=sharing"
+    },
+	{
+        id: 37,
+        title: "Blue Lock le film - Épisode Nagi",
+        poster: "https://image.tmdb.org/t/p/w1280/tT7wk65X4czBIxDjoPRMNw5JhKD.jpg",
+        description: "La vie de Seishirô Nagi, élève de première paresseux, connaît un tournant radical lorsqu'il rencontre Reo Mikage, héritier d'une imposante entreprise, qui n'a qu'un seul rêve : devenir champion du monde de football. Après avoir été témoin des prédispositions naturelles de Nagi, capable des plus grandes prouesses techniques sans effort, il le recrute dans son club de football. Le duo ne tarde pas à se faire remarquer par le programme très spécial destiné aux meilleurs attaquants : le Blue Lock.",
+        rating: 6.6,
+        year: 2024,
+        genre: "Action, Animation, Sport",
+        genres: ["Action", "Sport"],
+        streamUrl: "https://www.youtube.com/embed/PXQyrjbQRh0",
+        trailerUrl: "https://www.youtube.com/watch?v=PXQyrjbQRh0",
+        watchUrl: "https://drive.google.com/file/d/1054x8ZUtca-nEletG3bwsk6vBIWlvcid/view?usp=sharing"
+    },
+	{
+        id: 38,
+        title: "Five Nights at Freddy's",
+        poster: "https://image.tmdb.org/t/p/w1280/tEY81I7lpiHaLJa7AZ3O4vWXmJo.jpg",
+        description: "Mike, jeune homme perturbé, est toujours hanté par la disparition, de son frère dix ans auparavant. Afin de ne pas perdre la garde de sa sœur Abby, il accepte un poste de gardien de nuit dans un restaurant désaffecté, Freddy Fazbear’s Pizzeria. Mais il ne tarde pas à être confronté, la nuit, à des phénomènes surnaturels inexplicables, et bascule dans un univers cauchemardesque…",
+        rating: 5.4,
+        year: 2023,
+        genre: "Thriller, Family",
+        genres: ["Thriller", "Family"],
+        streamUrl: "https://www.youtube.com/embed/dOOk2kHB5Bk",
+        trailerUrl: "https://www.youtube.com/watch?v=dOOk2kHB5Bk",
+        watchUrl: "https://drive.google.com/file/d/1VAwBurEuc2LidfBZbKYZd78RE0vDRbNq/view?usp=sharing"
+    },
+	{
+        id: 39,
+        title: "Five Nights at Freddy's 2",
+        poster: "https://image.tmdb.org/t/p/w1280/zaKVvYUJRqgz48FadyxWqGi4m3Z.jpg",
+        description: "Un an s’est écoulé depuis le cauchemar surnaturel survenu chez Freddy Fazbear's Pizza. Un effroyable nouveau chapitre d'horreur s'ouvre lorsqu’Abby, la sœur de Mike, ancien agent de sécurité, s'échappe à la recherche de ses amis animatroniques : Freddy, Bonnie, Chica et Foxy. Alors que de terrifiants événements se déclenchent, de sombres secrets sur les véritables origines de Freddy sont révélés, libérant une horreur oubliée depuis des décennies.",
+        rating: 5.2,
+        year: 2025,
+        genre: "Thriller, Family",
+        genres: ["Thriller", "Family"],
+        streamUrl: "https://www.youtube.com/embed/lrx6I18wOIM",
+        trailerUrl: "https://www.youtube.com/watch?v=lrx6I18wOIM",
+        watchUrl: "https://drive.google.com/file/d/1SrBXdxGCqE6TCRiwuhLaQbu12ayAefvX/view?usp=sharing"
+    }
+];
+
+const series = [
+    {
+        id: 1,
+        title: "Squid Game - Saison 2",
+        poster: "https://fr.web.img3.acsta.net/r_1920_1080/img/92/4a/924acf41c50c62c30325565c96727751.jpg",
+        description: "Annonçant le grand retour du succès planétaire, un nouveau chapitre s'ouvre pour Gi-hun.",
+        rating: 8.6,
+        year: 2024,
+        genre: "Drama, Thriller",
+        genres: ["Drama", "Thriller", "Action"],
+        streamUrl: "https://www.youtube.com/embed/0bzcYhRiR4k",
+        trailerUrl: "https://www.youtube.com/watch?v=0bzcYhRiR4k",
+        watchUrl: null,
+        episodes: [
+            {title:"Episode 1 - Du pain et des jeux de hasard",description:"Une fois à l'aéroport, Gi-hun fait demi-tour et jure de se venger.",thumbnail:"https://fr.web.img5.acsta.net/c_400_200/img/f4/bb/f4bbbf766d588cd52b9f834787a848f7.jpg",duration:"58 min",watchUrl:"https://drive.google.com/file/d/13bpE6GisnM7SFqWgq2KwgV7tmtKPPyv_/view?usp=sharing"},
+            {title:"Episode 2 - La fête d'Halloween",description:"Gi-hun parvient enfin à se procurer une invitation, pour le 31 octobre.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/img/a1/37/a13784a5c36b128836b52c9090f5c376.jpg",duration:"54 min",watchUrl:"https://drive.google.com/file/d/1xsMeDOdgdOFdiQbfHkOeUvIG3G7sxJqq/view?usp=sharing"},
+            {title:"Episode 3 - 001",description:"De nouveaux participants se réunissent pour tenter de gagner 45,6 milliards de wons.",thumbnail:"https://fr.web.img5.acsta.net/c_400_200/img/d1/9e/d19e16474fdd077ff617b034387479b1.jpg",duration:"61 min",watchUrl:"https://drive.google.com/file/d/1KikJyQMdC4sj8me8BFfOu72zsX0fB8T8/view?usp=sharing"},
+            {title:"Episode 4 - Six jambes",description:"Les joueurs se préparent pour la prochaine épreuve : le pentathlon à six jambes.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/img/a5/82/a582fd93f6944b5b27f9d2966d7e3906.jpg",duration:"59 min",watchUrl:"https://drive.google.com/file/d/12YypqNOWYFNQ9VbIQ8eDR-cAXV_5DF5g/view?usp=sharing"},
+            {title:"Episode 5 - Un jeu de plus",description:"Kang No-eul se fait des ennemis à cause de ses actions irresponsables.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/img/c9/da/c9da0c14b52260d4776991dd0bcae41e.jpg",duration:"55 min",watchUrl:"https://drive.google.com/file/d/1GRd1wWxrSC2cZdD2xl_NnhHLzLyT-5Y5/view?usp=sharing"},
+            {title:"Episode 6 - O X",description:"Jun-ho et son équipe s'apprêtent à intervenir sur une île suspecte.",thumbnail:"https://fr.web.img4.acsta.net/c_400_200/img/2a/4d/2a4d6eaee54cd937918579f608d311bb.jpg",duration:"50 min",watchUrl:"https://drive.google.com/file/d/11q8HBtI5C9kzAnyXIK0CbuCe3GRDPbDC/view?usp=sharing"},
+            {title:"Episode 7 - Amis ou ennemis",description:"Les derniers participants élaborent des stratégies pour survivre à la nuit.",thumbnail:"https://fr.web.img5.acsta.net/c_400_200/img/35/5a/355ae1795d22f8e826aec417fcbcbc68.jpg",duration:"52 min",watchUrl:"https://drive.google.com/file/d/1-4_67YAaMw6YZZlE-GItxh6a3udDvt37/view?usp=sharing"}
+        ]
+    },
+    {
+        id: 2,
+        title: "Squid Game - Saison 1",
+        poster: "https://fr.web.img5.acsta.net/c_310_420/pictures/21/09/14/10/18/1090569.jpg",
+        description: "Tentés par un prix alléchant en cas de victoire, des centaines de joueurs désargentés acceptent de s'affronter lors de jeux pour enfants aux enjeux mortels.",
+        rating: 8.7,
+        year: 2021,
+        genre: "Drama, Thriller",
+        genres: ["Drama", "Thriller", "Action"],
+        streamUrl: "https://www.youtube.com/embed/GYoD8oOH31M",
+        trailerUrl: "https://www.youtube.com/watch?v=GYoD8oOH31M",
+        watchUrl: null,
+        episodes: [
+            {title:"Episode 1 - Un, deux, trois, soleil",description:"Ruiné et prêt à tout, Gi-hun accepte de participer à un jeu mystérieux.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/21/09/27/11/05/0781261.jpg",duration:"59 min",watchUrl:"https://drive.google.com/file/d/1oDUt6u22YDZ0vOGCYClmEAZtjr24wcDu/view?usp=sharing"},
+            {title:"Episode 2 - Enfer",description:"Le groupe organise un vote pour décider s'il continue ou abandonne l'aventure.",thumbnail:"https://fr.web.img2.acsta.net/c_400_200/pictures/21/09/27/11/05/0832746.jpg",duration:"62 min",watchUrl:"https://drive.google.com/file/d/101k_Bh_9o13679uO2q-jpvkYNXc19KvL/view?usp=sharing"},
+            {title:"Episode 3 - L'homme au parapluie",description:"Plusieurs joueurs passent à l'épreuve suivante, aussi délicieuse que mortelle.",thumbnail:"https://fr.web.img4.acsta.net/c_400_200/pictures/21/09/27/11/05/0881111.jpg",duration:"55 min",watchUrl:"https://drive.google.com/file/d/1-TtBNAk88OO2PAY8giGT-BYaNKTKA41c/view?usp=sharing"},
+            {title:"Episode 4 - L'équipe avant tout",description:"Les joueurs forment des alliances. La nuit tombée, personne n'est à l'abri.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/21/09/27/11/05/0929476.jpg",duration:"56 min",watchUrl:"https://drive.google.com/file/d/19xK7dHT7BTeywQtmfGof7syc3rBIss02/view?usp=sharing"},
+            {title:"Episode 5 - Un monde juste",description:"Gi-hun et son équipe se relaient pour monter la garde toute la nuit.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/21/09/27/11/05/0987202.jpg",duration:"53 min",watchUrl:"https://drive.google.com/file/d/1N3ajc4lqenvZ6iaVVDfSWLgya1o-tl77/view?usp=sharing"},
+            {title:"Episode 6 - Gganbu",description:"Les joueurs se mettent par deux pour la quatrième épreuve.",thumbnail:"https://fr.web.img4.acsta.net/c_400_200/pictures/21/09/27/11/05/1032446.jpg",duration:"63 min",watchUrl:"https://drive.google.com/file/d/1Emh1-kPPobZXaQp542aTxH7zztflrTYb/view?usp=sharing"},
+            {title:"Episode 7 - VIPS",description:"Les invités VIP sont accueillis avec les honneurs aux premières loges.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/21/09/27/11/05/1079251.jpg",duration:"59 min",watchUrl:"https://drive.google.com/file/d/17UMlS5bYLsTx1SV7JXfvhQIpW8H0HlEj/view?usp=sharing"},
+            {title:"Episode 8 - Leader",description:"Avant la dernière épreuve, la méfiance et le dégoût règnent parmi les finalistes.",thumbnail:"https://fr.web.img5.acsta.net/c_400_200/pictures/21/09/27/11/05/1126056.jpg",duration:"32 min",watchUrl:"https://drive.google.com/file/d/12h-MMiUAVxi3HCjGgkzr6MzU8wS4qZry/preview?usp=sharing"},
+            {title:"Episode 9 - Jour de chance",description:"La dernière manche constitue un test tout aussi cruel.",thumbnail:"https://fr.web.img4.acsta.net/c_400_200/pictures/21/09/27/11/05/1171301.jpg",duration:"56 min",watchUrl:"https://drive.google.com/file/d/1IzIA_NAhwDN3qOs477HPrdxIIdFSeZ7X/view?usp=sharing"}
+        ]
+    },
+	
+	    {
+        id: 3,
+        title: "Blue Lock - Saison 1",
+        poster: "https://fr.web.img2.acsta.net/c_310_420/pictures/22/10/07/09/03/4457121.jpg",
+        description: "Coupe du monde 2018, l'équipe de football du Japon est éliminée en huitièmes de finale... Ce nouvel échec incite l'Union japonaise de football à fonder le 'Blue Lock'.",
+        rating: 8.0,
+        year: 2022,
+        genre: "Animation, Sport",
+        genres: ["Animation", "Sport", "Drama"],
+        streamUrl: "https://www.youtube.com/embed/dwHYQ_QOm1s",
+        trailerUrl: "https://www.youtube.com/watch?v=dwHYQ_QOm1s",
+        watchUrl: null,
+        episodes: [
+            {title:"S01E01 - Mon rêve",description:"Yoichi Isagi est dépité d'avoir perdu le match permettant à son équipe de se qualifier.",thumbnail:"https://fr.web.img4.acsta.net/c_400_200/pictures/22/10/10/09/45/1279614.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1IP0sEDsY6buutxbIWZeGAdICQoXlbbYh/view?usp=sharing"},
+            {title:"S01E02 - Le monstre",description:"Isagi a éliminé Kira lors du jeu du loup à la toute dernière seconde.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/22/10/17/09/45/4579841.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/18nxNwMrfxNTShqjnytigoL1In2VTU24l/view?usp=sharing"},
+            {title:"S01E03 - Réinventer le foot de zéro",description:"L'équipe X affronte son premier adversaire lors de la première sélection.",thumbnail:"https://fr.web.img2.acsta.net/c_400_200/pictures/22/10/24/09/53/5073999.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/17btCKmJLPWZnoygKG0F0_Ftz8ZE_fi0M/view?usp=sharing"},
+            {title:"S01E04 - Pressentiment et intuition",description:"L'équipe Z est maintenant confrontée à un nouvel adversaire.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/22/10/31/10/26/4866126.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1x5f96rqiSQ_RrePZaHqu6hH1sp8fZ73C/view?usp=sharing"},
+            {title:"S01E05 - Le moment ou jamais pour changer",description:"L'équipe Z et l'équipe V s'affrontent pour tenter de décrocher la victoire.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/22/11/07/15/18/5325514.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1COEfAwkOh1Bf81OrcGkmYGXaUFvw0oWJ/view?usp=sharing"},
+            {title:"S01E06 - Désolé",description:"L'équipe Z affronte pour son troisième match l'équipe W.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/22/11/14/08/50/1538759.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1xofMon3YCgMEZl8GfUc6FeAcr1uCCwII/view?usp=sharing"},
+            {title:"S01E07 - La passion ardente",description:"Après s'être fait trahi par l'un de ses coéquipiers, Isagi tente tout pour égaliser.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/22/11/22/10/42/5501634.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1twDMzhwfyWGsLpYngsjOf-cgxyuzK4av/view?usp=sharing"},
+            {title:"S01E08 - La formule pour marquer",description:"L'équipe Z n'a plus qu'un seul match à jouer, et il décidera de l'avenir de ses membres.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/22/11/28/09/36/4150102.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1GmwR0CE4PMgAVaQBPQ_TbSJ6NP9CkeT4/view?usp=sharing"},
+            {title:"S01E09 - L'éveil",description:"Le dernier match du bâtiment 5 a débuté, et l'équipe Z joue le tout pour le tout.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/22/12/05/09/41/3560454.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1EbSWxrTRmVr9XGDZ-e7Ry-0StYV5sdSW/view?usp=sharing"},
+            {title:"S01E10 - C'est pour le mieux",description:"La tension est à son comble dans le match opposant l'équipe V à l'équipe Z.",thumbnail:"https://fr.web.img5.acsta.net/c_400_200/pictures/22/12/12/10/43/3640840.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1TrINKfSW__H5yaLTTddKqHScXM0_oov2/view?usp=sharing"},
+            {title:"S01E11 - La dernière pièce du puzzle",description:"L'équipe Z lance un ultime contre pour essayer de décrocher la victoire.",thumbnail:"https://fr.web.img5.acsta.net/c_400_200/pictures/22/12/19/15/51/5074457.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1Tee2nE4wbUr95Ixj-vIDP2Ugp65nCjBG/view?usp=sharing"},
+            {title:"S01E12 - La deuxième sélection",description:"Isagi et ses coéquipiers se sont enfin qualifiés pour la deuxième sélection.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/22/12/27/10/08/2149321.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1umKmD4TPJQ9STyYm0EMFS8-MuAHx9pdD/view?usp=sharing"},
+            {title:"S01E13 - Top 3",description:"La deuxième sélection débute d'entrée de jeu avec un match opposant l'équipe d'Isagi.",thumbnail:"https://fr.web.img2.acsta.net/c_400_200/pictures/23/01/09/10/25/2678729.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/180fD0P12YN3LnsB4adTmqc56zYce_8ON/view?usp=sharing"},
+            {title:"S01E14 - Les génies et les mecs lambda",description:"Isagi et Nagi se retrouvent de nouveau au niveau 2.",thumbnail:"https://fr.web.img5.acsta.net/c_400_200/pictures/23/01/16/11/25/5737557.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1Dwaxs6pV6UluC_mm_kfKf8KWN7_1wTqg/view?usp=sharing"},
+            {title:"S01E15 - Le dévoreur",description:"Le match opposant Isagi à Naruhaya est à son comble.",thumbnail:"https://fr.web.img2.acsta.net/c_400_200/pictures/23/01/23/09/31/1921894.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1talXHiNlXDPI7MBlJfpZpA-d7LyG8VcF/view?usp=sharing"},
+            {title:"S01E16 - La combinaison à trois",description:"Après sa victoire contre Barô et Naruhaya, Isagi essaie de trouver un moyen de combiner.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/23/01/30/09/53/4993330.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/18pGSaXcrnMBg73GhoFgbdReU86QPP495/view?usp=sharing"},
+            {title:"S01E17 - Le nullos",description:"Le match opposant Isagi à ses anciens équipiers devient de plus en plus difficile.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/23/02/06/09/11/0318395.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1JnK7yxkPLDwpewhYiwE7MRMfDIbR8ldX/view?usp=sharing"},
+            {title:"S01E18 - Le protagoniste de la scène",description:"Le niveau 3 de la bataille de rivalité va bientôt prendre fin.",thumbnail:"https://fr.web.img2.acsta.net/c_400_200/pictures/23/02/13/09/48/5128136.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1j53TFGI-zRKaktvcVXrZIar4iSzO-qVb/view?usp=sharing"},
+            {title:"S01E19 - Dancing boy",description:"Isagi, Nagi et Barô doivent choisir le joueur qui rejoindra leur équipe.",thumbnail:"https://fr.web.img2.acsta.net/c_400_200/pictures/23/02/27/11/47/4208957.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/19cHOSxCFhVzwaapBpR5lqeQKxJheab0h/view?usp=sharing"},
+            {title:"S01E20 - Le super jeu combiné",description:"Le moment qu'Isagi attendait tant est arrivé.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/23/02/27/11/47/4255756.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1sqy3CfnPh5HfZ2PYtoaRSPhtr1uVJtbX/view?usp=sharing"},
+            {title:"S01E21 - Je ne fais pas partie de leur monde",description:"Isagi et Rin utilisent tout ce qu'ils ont à disposition.",thumbnail:"https://fr.web.img5.acsta.net/c_400_200/pictures/23/03/27/15/12/1652960.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1PDUpvonUpmIZdNxp11wr-C015DmlVA_D/view?usp=sharing"},
+            {title:"S01E22 - La voix du cœur",description:"Isagi est toujours à la recherche d'une nouvelle formule pour surpasser Rin.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/23/03/13/09/24/4241595.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1i8qHh2B4YZV0TtLb1QWS7yEVKDdZnZk4/view?usp=sharing"},
+            {title:"S01E23 - Luck",description:"Le match opposant l'équipe d'Isagi à celle de Rin est enfin terminé.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/23/03/20/10/00/4875522.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1aPwGtAzLSJWeS5HygCThz2UzemxANIFi/view?usp=sharing"},
+            {title:"S01E24 - L'heure est venue",description:"Isagi et son équipe mènent au score contre le top mondial.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/23/03/27/15/12/0542226.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1eOoo4CeB8dl3XLc7w0J8DM_3kNTQ_Sbl/view?usp=sharing"}
+        ]
+    },
+    {
+        id: 4,
+        title: "Squid Game - Saison 3",
+        poster: "https://fr.web.img5.acsta.net/r_1920_1080/img/fc/7e/fc7ef7f343b087537bd64b1925198a07.jpg",
+        description: "Anéanti après avoir perdu son ami, le joueur 456 reprend pourtant courage et défie les plans du maître du jeu dans l'ultime saison de la série la plus regardée au monde.",
+        rating: 8.0,
+        year: 2025,
+        genre: "Drama, Thriller",
+        genres: ["Drama", "Thriller", "Action"],
+        streamUrl: "https://www.youtube.com/embed/aQAbx8XZBII",
+        trailerUrl: "https://www.youtube.com/watch?v=aQAbx8XZBII",
+        watchUrl: null,
+        episodes: [
+            {title:"Episode 1 - Clés et poignards",description:"No-eul prend des risques pour infiltrer une opération dangereuse.",thumbnail:"https://media.themoviedb.org/t/p/w454_and_h254_bestv2/2xqny2WLuT25vwo2lSbspp09jlz.jpg",duration:"58 min",watchUrl:"https://drive.google.com/file/d/1KiicvenJbkaZwjBEX80lSIEer_mpMvCu/view?usp=sharing"},
+            {title:"Episode 2 - Nuit étoilée",description:"Alors que le jeu reprend, Gi-hun tient absolument à affronter Kang Dae-ho.",thumbnail:"https://media.themoviedb.org/t/p/w454_and_h254_bestv2/eFlIKUPGoWMLKjvMxpfYQT5Lmcv.jpg",duration:"60 min",watchUrl:"https://drive.google.com/file/d/1Cx9qm-1rSWwhUCEAoHdUKOYVZohGQkWE/view?usp=sharing"},
+            {title:"Episode 3 - Ce n'est pas ta faute",description:"L'équipe de Jun-ho est sur le point de trouver l'île.",thumbnail:"https://media.themoviedb.org/t/p/w454_and_h254_bestv2/gd9QhGKwkoFUfRo6hosINt9UERM.jpg",duration:"66 min",watchUrl:"https://drive.google.com/file/d/1XD1DhD-kGrm7ILO_sWkeT4i9mQjYTPnf/view?usp=sharing"},
+            {title:"Episode 4 - 222",description:"Gi-hun soutient Jun-hee alors que la tension monte.",thumbnail:"https://media.themoviedb.org/t/p/w454_and_h254_bestv2/7MpBNso3Ym21Oly3HuoPgGpKxG5.jpg",duration:"67 min",watchUrl:"https://drive.google.com/file/d/1-4cezxaNE9MdL8i-2u7mkK5q0FJNsO5N/view?usp=sharing"},
+            {title:"Episode 5 - ○△□",description:"No-eul essaie de prendre l'avantage lors des négociations.",thumbnail:"https://media.themoviedb.org/t/p/w454_and_h254_bestv2/mYhwcWgHnQnpZMD1OuhyDiOhV73.jpg",duration:"63 min",watchUrl:"https://drive.google.com/file/d/1pyK-mxBJ8KdMBlhMa9izzeIM2S00XOqs/view?usp=sharing"},
+            {title:"Episode 6 - Les êtres humains sont...",description:"Alors que Jun-ho se hâte de rejoindre l'île, la tension est à son comble.",thumbnail:"https://media.themoviedb.org/t/p/w454_and_h254_bestv2/vzYGUdGRm1bl7WoPmhZd8bSh6gN.jpg",duration:"56 min",watchUrl:"https://drive.google.com/file/d/1SPC-fHO9bF6tbId0gueasE-TKA6ouIsm/view?usp=sharing"}
+        ]
+    },
+    {
+        id: 5,
+        title: "Gachiakuta",
+        poster: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/oU2SBv5VQCdOHfw3Aw8B0UeAsim.jpg",
+        description: "Dans une ville flottante où les riches se débarrassent de leurs déchets, comme de leurs habitants indésirables, Rudo est accusé de meurtre et jeté dans la Fosse.",
+        rating: 8.2,
+        year: 2025,
+        genre: "Animation, Action",
+        genres: ["Animation", "Action", "Adventure"],
+        streamUrl: "https://www.youtube.com/embed/k2fnY1LuuLA",
+        trailerUrl: "https://www.youtube.com/watch?v=k2fnY1LuuLA",
+        watchUrl: null,
+        episodes: [
+            {title:"S01E01 - La Cité céleste",description:"Rudo vit avec Regto, son père adoptif, près de la Cité céleste.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/img/de/1f/de1fb7a0ac204b5be0be7fc727c5a744.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1M3pNoedzcTuPBqIUyCzAW1WYrdOL_gaT/view?usp=sharing"},
+            {title:"S01E02 - Réceptacles",description:"Jeté dans la Fosse par les Apôtres, Rudo découvre les Composites.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/img/53/e8/53e8054ed6e0cf99384e6765f41a75b4.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/197wiC2X92qeSolJYsXxyqjpow8yWyKmr/view?usp=sharing"},
+            {title:"S01E03 - Le Bas-monde",description:"Rudo, guidé par Enjin, découvre le Bas-monde et les Nettoyeurs.",thumbnail:"https://fr.web.img5.acsta.net/c_400_200/img/45/e0/45e04f4c994576b6b4ab5c3e38971431.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1G74CoUqq97rHKyNdcayUTPpAGU5t4nOu/view?usp=sharing"},
+            {title:"S01E04 - Le QG des Nettoyeurs",description:"Rudo arrive au QG des Nettoyeurs et découvre leur organisation.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/img/98/1b/981b1febdf8607d6f11dfd1a6f1d72c5.jpg",duration:"24 min",watchUrl:"https://drive.google.com/file/d/1NsIUuxVUUgG8NLBlE22RHuL4ypu63V-R/view?usp=sharing"}
+        ]
+    },
+    {
+        id: 6,
+        title: "Solo Leveling - Saison 1",
+        poster: "https://image.tmdb.org/t/p/w1280/geCRueV3ElhRTr0xtJuEWJt6dJ1.jpg",
+        description: "Lorsque d'étranges portails apparaissent aux quatre coins du monde, l'humanité doit trouver une solution pour ne pas finir massacrée par les monstres qui en sortent. Dans le même temps, certaines personnes développent des capacités permettant de les chasser. Ces combattants intrépides n'hésitent pas à foncer au cœur des donjons pour combattre les créatures qu'ils abritent.",
+        rating: 8.6,
+        year: 2024,
+        genre: "Animation, Action",
+        genres: ["Animation", "Drama", "Action"],
+        streamUrl: "https://www.youtube.com/embed/3eo1e0xQ9o4",
+        trailerUrl: "https://www.youtube.com/watch?v=3eo1e0xQ9o4",
+        watchUrl: null,
+        episodes: [
+            {title:"Episode 1 - Je m’y suis habitué",description:"Ce qui ne vous tue pas vous rend plus fort ! Mais ce dicton ne s'applique pas au chasseur le plus faible de toute l’humanité, Jinwoo Sung. Après avoir été mortellement blessé lorsqu’il est tombé par hasard sur un double donjon caché, Jinwoo est miraculeusement rescapé. Au bord de la mort, il entrevoit une quête et saisit une opportunité qui lui permet dès lors de gagner en puissance très rapidement. À présent, il souhaite découvrir les secrets de ses pouvoirs et du donjon qui les a engendrés.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/24/01/08/09/58/0397759.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1dEpg3Bfi-XhtfW7c5UQm-KZz3SjDU7Gr/view?usp=sharing"},
+            {title:"Episode 2 - Si j’avais une seconde chance",description:"Sung Jinwoo, considéré comme le chasseur le plus faible de tous les temps, continue contre vents et marées à se battre dans les différents donjons. Aujourd'hui débute un nouveau raid, auquel il prendra part, accompagné de son amie Lee Juhee, une guérisseuse.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/24/01/15/11/05/2133660.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1E95q3Sv-cnrV4p9DIqB0rN4fPLOjnHXU/view?usp=sharing"},
+            {title:"Episode 3 - C’est comme un jeu",description:"Jinwoo se réveille à l'hôpital, avec tous ses membres en place, sans aucune blessure profonde apparente… Qu'a-t-il bien pu se passer ? Le Département de surveillance en sait peut-être davantage.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/pictures/24/01/22/09/54/1092477.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1b4TdeH7bvDvh5B_iA67-IOhXj5EwoHBF/view?usp=sharing"},
+            {title:"Episode 4 - Je dois devenir plus fort",description:"Coincé seul dans un donjon éphémère, notre héros expérimente avec ses nouveaux points de compétence, qui lui confèrent déjà beaucoup plus de force. Afin de s'échapper, il devra vaincre le boss.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/24/01/29/11/03/3241944.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1b4MwohRGN3ral3MffR_rWaUHeyiuDdUI/view?usp=sharing"},
+            {title:"Episode 5 - Une bonne affaire",description:"Aujourd'hui, Jinwoo quitte l'hôpital. Il se sent en pleine forme, et en plus, il a désormais la cote avec les infirmières. De retour chez lui, il devra décider de la répartition de ses nouveaux points à attribuer.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/24/02/05/10/28/0908457.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1HGMfU9zpiPROftlbJsQ0BnFLwO76Gf1o/view?usp=sharing"},
+            {title:"Episode 6 - La véritable chasse commence",description:"Après avoir été bernés par la troupe de Hwang, Jinwoo et Jinho se retrouvent seuls face à une araignée géante de niveau C. Malgré les avertissements de son coéquipier, notre héros se jette tête baissée dans un rude combat contre le boss du donjon.",thumbnail:"https://fr.web.img4.acsta.net/c_400_200/pictures/24/02/19/12/32/2110774.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1cdXQSfTcORn3-a_k6qwr9RXliExqLgID/view?usp=sharing"},
+            {title:"Episode 7 - Voyons jusqu’où je peux aller",description:"Alors que Jin-woo poursuit son entraînement, il accomplit un jour une quête quotidienne en faisant plus que ce qui est demandé, et une clé menant à un certain objet apparaît devant lui.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/24/02/19/12/32/2154454.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/14pKWeLG-UI6EkcLyBZMPZZDM9de3a-Xc/view?usp=sharing"},
+            {title:"Episode 8 - C’est frustrant",description:"Dans un donjon de rang D, Jin-woo participe à un raid organisé par l'Association des Chasseurs. Sur place, il retrouve des visages qu'il connaît déjà.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/24/03/04/10/07/4220498.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1uxs-38gMZ3JKTEpN6ATBrnECiNgsySG7/view?usp=sharing"},
+            {title:"Episode 9 - Tu cachais bien ton jeu",description:"Dans le raid de rang D, Jinwoo retrouve quatre survivants du temple de Cartenon. Après s’être séparés en petits groupes, des cris retentissent et la situation dégénère rapidement.",thumbnail:"https://fr.web.img6.acsta.net/c_400_200/pictures/24/03/11/09/49/1671521.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1bE4OO0FmkIvfOMMmVDkhkTyNF4-gElWe/view?usp=sharing"},
+            {title:"Episode 10 - C’est quoi ça, un pique-nique ?",description:"Toujours dans le raid de rang D, Jinwoo et les autres explorent le donjon avec Kang Tae-shik et ses hommes. Dès qu’ils se séparent, un cri déchire le silence…",thumbnail:"https://fr.web.img2.acsta.net/c_400_200/pictures/24/03/18/09/52/4894560.jpg",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1_Irc4tdR2lV6dMsY2a-jGiT-4SqRvqha/view?usp=sharing"},
+            {title:"Episode 11 - Le chevalier qui défend un trône vide",description:"Jinwoo survit encore une fois à la catastrophe. Mais Woo Jinchul le met en garde : Hwang Dongsoo, chasseur de rang S, pourrait bien être à ses trousses.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/img/35/bf/35bfd005c684c35fff56f7da4d2d9a15.JPG",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1EfSzKfnNT7Gjgp-ZxQz2FTQwdUvduJIu/view?usp=sharing"},
+            {title:"Episode 12 - Lève-toi (Arise)",description:"Épuisé par les combats, Jinwoo fait face aux souvenirs de son passé. Pour dépasser l’image du chasseur le plus faible de l’humanité, il doit trouver le moyen de réussir son changement de classe… ou mourir en essayant.",thumbnail:"https://fr.web.img3.acsta.net/c_400_200/img/d8/de/d8dedc606a582015a6b36ae96645dd74.JPG",duration:"23 min",watchUrl:"https://drive.google.com/file/d/1Wb6UX0bfJ_A9BpRz0KSpzM5SsQ5sLJPZ/view?usp=sharing"}
+        ]
+    },
+];
+
+class StreamNowApp {
+    constructor() {
+        this.currentTab = 'movies';
+        this.currentFilter = 'all';
+        this.searchQuery = '';
+        this.currentContent = null;
+        this.isModalOpen = false;
+        this.init();
+    }
+
+    init() {
+        this.cacheElements();
+        this.bindEvents();
+        this.extractGenres();
+        this.renderFilters();
+        this.renderContent();
+        this.updateCounts();
+    }
+
+    cacheElements() {
+        this.header = document.getElementById('header');
+        this.modal = document.getElementById('modal');
+        this.modalClose = document.getElementById('modalClose');
+        this.modalTitle = document.getElementById('modalTitle');
+        this.modalMeta = document.getElementById('modalMeta');
+        this.modalDescription = document.getElementById('modalDescription');
+        this.modalVideo = document.getElementById('modalVideo');
+        this.modalActions = document.getElementById('modalActions');
+        this.episodesSection = document.getElementById('episodesSection');
+        this.episodesGrid = document.getElementById('episodesGrid');
+        this.searchInput = document.getElementById('searchInput');
+        this.searchClear = document.getElementById('searchClear');
+        this.moviesGrid = document.getElementById('moviesGrid');
+        this.seriesGrid = document.getElementById('seriesGrid');
+        this.moviesSection = document.getElementById('moviesSection');
+        this.seriesSection = document.getElementById('seriesSection');
+        this.moviesCount = document.getElementById('moviesCount');
+        this.seriesCount = document.getElementById('seriesCount');
+        this.movieFilters = document.getElementById('movieFilters');
+        this.seriesFilters = document.getElementById('seriesFilters');
+        this.navTabs = document.querySelectorAll('.nav__tab');
+        this.toast = document.getElementById('toast');
+    }
+
+    bindEvents() {
+        this.navTabs.forEach(tab => {
+            tab.addEventListener('click', () => this.switchTab(tab.dataset.tab));
+        });
+
+        let searchTimeout;
+        this.searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            this.searchQuery = e.target.value.trim().toLowerCase();
+            this.searchClear.classList.toggle('visible', this.searchQuery.length > 0);
+            searchTimeout = setTimeout(() => this.renderContent(), 200);
+        });
+
+        this.searchClear.addEventListener('click', () => {
+            this.searchInput.value = '';
+            this.searchQuery = '';
+            this.searchClear.classList.remove('visible');
+            this.renderContent();
+            this.searchInput.focus();
+        });
+
+        this.modalClose.addEventListener('click', () => this.closeModal());
+        this.modal.addEventListener('click', (e) => {
+            if (e.target === this.modal) this.closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isModalOpen) this.closeModal();
+        });
+
+        let scrollTicking = false;
+        window.addEventListener('scroll', () => {
+            if (!scrollTicking) {
+                requestAnimationFrame(() => {
+                    this.header.classList.toggle('scrolled', window.scrollY > 50);
+                    scrollTicking = false;
+                });
+                scrollTicking = true;
+            }
+        }, { passive: true });
+
+        window.addEventListener('resize', this.debounce(() => {
+            if (window.innerWidth > 768 && this.isModalOpen) {
+                this.modal.scrollTop = 0;
+            }
+        }, 250));
+    }
+
+    extractGenres() {
+        this.movieGenres = [...new Set(movies.flatMap(m => m.genres))].sort();
+        this.seriesGenres = [...new Set(series.flatMap(s => s.genres))].sort();
+    }
+
+    renderFilters() {
+        this.movieFilters.innerHTML = this.createFilterButtons(this.movieGenres, 'movies');
+        this.seriesFilters.innerHTML = this.createFilterButtons(this.seriesGenres, 'series');
+        
+        this.movieFilters.querySelectorAll('.filter__btn').forEach(btn => {
+            btn.addEventListener('click', () => this.handleFilter(btn, 'movies'));
+        });
+        this.seriesFilters.querySelectorAll('.filter__btn').forEach(btn => {
+            btn.addEventListener('click', () => this.handleFilter(btn, 'series'));
+        });
+    }
+
+    createFilterButtons(genres, type) {
+        return `
+            <button class="filter__btn active" data-filter="all" data-type="${type}">All</button>
+            ${genres.slice(0, 6).map(g => `
+                <button class="filter__btn" data-filter="${g.toLowerCase()}" data-type="${type}">${g}</button>
+            `).join('')}
+        `;
+    }
+
+    handleFilter(btn, type) {
+        const container = type === 'movies' ? this.movieFilters : this.seriesFilters;
+        container.querySelectorAll('.filter__btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.currentFilter = btn.dataset.filter;
+        this.renderContent();
+    }
+
+    switchTab(tab) {
+        this.currentTab = tab;
+        this.currentFilter = 'all';
+        this.searchQuery = '';
+        this.searchInput.value = '';
+        this.searchClear.classList.remove('visible');
+
+        this.navTabs.forEach(t => {
+            const isActive = t.dataset.tab === tab;
+            t.classList.toggle('active', isActive);
+            t.setAttribute('aria-pressed', isActive);
+        });
+
+        this.moviesSection.classList.toggle('active', tab === 'movies');
+        this.seriesSection.classList.toggle('active', tab === 'series');
+
+        const filterContainer = tab === 'movies' ? this.movieFilters : this.seriesFilters;
+        filterContainer.querySelectorAll('.filter__btn').forEach(b => b.classList.remove('active'));
+        filterContainer.querySelector('[data-filter="all"]').classList.add('active');
+
+        this.renderContent();
+    }
+
+    filterContent(items) {
+        return items.filter(item => {
+            const matchesSearch = this.searchQuery === '' || 
+                item.title.toLowerCase().includes(this.searchQuery) ||
+                item.genres.some(g => g.toLowerCase().includes(this.searchQuery)) ||
+                item.year.toString().includes(this.searchQuery);
+            
+            const matchesFilter = this.currentFilter === 'all' || 
+                item.genres.some(g => g.toLowerCase() === this.currentFilter);
+            
+            return matchesSearch && matchesFilter;
+        });
+    }
+
+    renderContent() {
+        if (this.currentTab === 'movies') {
+            const filtered = this.filterContent(movies);
+            this.moviesGrid.innerHTML = filtered.length ? 
+                filtered.map(m => this.createCard(m, true)).join('') :
+                this.createEmptyState();
+            this.updateCount(this.moviesCount, filtered.length, 'movie');
+        } else {
+            const filtered = this.filterContent(series);
+            this.seriesGrid.innerHTML = filtered.length ?
+                filtered.map(s => this.createCard(s, false)).join('') :
+                this.createEmptyState();
+            this.updateCount(this.seriesCount, filtered.length, 'series');
+        }
+
+        this.bindCardEvents();
+    }
+
+    createCard(item, isMovie) {
+        return `
+            <article class="card" data-id="${item.id}" data-type="${isMovie ? 'movie' : 'series'}" tabindex="0" role="button" aria-label="View ${item.title}">
+                <img class="card__poster" src="${item.poster}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450/1a1a24/666?text=No+Image'">
+                <div class="card__badge card__badge--rating">
+                    <i class="fas fa-star"></i>
+                    ${item.rating}
+                </div>
+                <span class="card__badge card__badge--year">${item.year}</span>
+                <div class="card__gradient"></div>
+                <div class="card__content">
+                    <h3 class="card__title">${item.title}</h3>
+                    <div class="card__genres">
+                        ${item.genres.slice(0, 2).map(g => `<span class="card__genre">${g}</span>`).join('')}
+                    </div>
+                    <div class="card__actions">
+                        <button class="card__btn card__btn--primary" data-action="info" data-id="${item.id}" data-type="${isMovie ? 'movie' : 'series'}">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Info</span>
+                        </button>
+                        <button class="card__btn card__btn--secondary" data-action="watch" data-id="${item.id}" data-type="${isMovie ? 'movie' : 'series'}">
+                            <i class="fas fa-play"></i>
+                            <span>Watch</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+        `;
+    }
+
+    createEmptyState() {
+        return `
+            <div class="empty">
+                <div class="empty__icon"><i class="fas fa-search"></i></div>
+                <h3 class="empty__title">No results found</h3>
+                <p class="empty__text">Try adjusting your search or filter criteria</p>
+            </div>
+        `;
+    }
+
+    bindCardEvents() {
+        document.querySelectorAll('.card').forEach(card => {
+            const openModal = () => {
+                const id = parseInt(card.dataset.id);
+                const type = card.dataset.type;
+                this.openModal(id, type === 'movie');
+            };
+
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('.card__btn')) openModal();
+            });
+
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openModal();
+                }
+            });
+        });
+
+        document.querySelectorAll('.card__btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                const isMovie = btn.dataset.type === 'movie';
+                const action = btn.dataset.action;
+
+                if (action === 'info') {
+                    this.openModal(id, isMovie);
+                } else if (action === 'watch') {
+                    this.watchContent(id, isMovie);
+                }
+            });
+        });
+    }
+
+    openModal(id, isMovie) {
+        const content = isMovie ? movies.find(m => m.id === id) : series.find(s => s.id === id);
+        if (!content) return;
+
+        this.currentContent = { ...content, isMovie };
+        this.isModalOpen = true;
+
+        this.modalTitle.textContent = content.title;
+        this.modalDescription.textContent = content.description;
+        this.modalVideo.src = content.streamUrl;
+
+        this.modalMeta.innerHTML = `
+            <span class="modal__meta-item modal__meta-item--rating">
+                <i class="fas fa-star"></i> ${content.rating}
+            </span>
+            <span class="modal__meta-item">
+                <i class="fas fa-calendar"></i> ${content.year}
+            </span>
+            <span class="modal__meta-item">
+                <i class="fas fa-film"></i> ${content.genres.join(', ')}
+            </span>
+            ${!isMovie && content.episodes ? `
+                <span class="modal__meta-item">
+                    <i class="fas fa-list"></i> ${content.episodes.length} Episodes
+                </span>
+            ` : ''}
+        `;
+
+        if (isMovie && content.watchUrl) {
+            this.modalActions.innerHTML = `
+                <button class="modal__btn modal__btn--primary" onclick="app.watchContent(${id}, true)">
+                    <i class="fas fa-play"></i> Watch Now
+                </button>
+                <button class="modal__btn modal__btn--secondary" onclick="window.open('${content.trailerUrl}', '_blank')">
+                    <i class="fab fa-youtube"></i> Trailer
+                </button>
+            `;
+            this.modalActions.style.display = 'flex';
+        } else if (isMovie) {
+            this.modalActions.innerHTML = `
+                <button class="modal__btn modal__btn--secondary" onclick="window.open('${content.trailerUrl}', '_blank')">
+                    <i class="fab fa-youtube"></i> Watch Trailer
+                </button>
+            `;
+            this.modalActions.style.display = 'flex';
+        } else {
+            this.modalActions.innerHTML = `
+                <button class="modal__btn modal__btn--secondary" onclick="window.open('${content.trailerUrl}', '_blank')">
+                    <i class="fab fa-youtube"></i> Watch Trailer
+                </button>
+            `;
+            this.modalActions.style.display = 'flex';
+        }
+
+        if (!isMovie && content.episodes && content.episodes.length > 0) {
+            this.episodesSection.style.display = 'block';
+            this.episodesGrid.innerHTML = content.episodes.map((ep, idx) => `
+                <div class="episode" data-url="${ep.watchUrl}" tabindex="0" role="button" aria-label="Watch ${ep.title}">
+                    <div class="episode__thumb">
+                        <img src="${ep.thumbnail}" alt="${ep.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/280x158/1a1a24/666?text=No+Thumb'">
+                        <div class="episode__play">
+                            <span class="episode__play-icon"><i class="fas fa-play"></i></span>
+                        </div>
+                    </div>
+                    <div class="episode__info">
+                        <h4 class="episode__title">${ep.title}</h4>
+                        <p class="episode__desc">${ep.description}</p>
+                        <span class="episode__duration"><i class="fas fa-clock"></i> ${ep.duration}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            this.episodesGrid.querySelectorAll('.episode').forEach(ep => {
+                const watch = () => {
+                    const url = ep.dataset.url;
+                    if (url && url !== 'null') {
+                        window.open(url, '_blank');
+                        this.showToast('Opening episode...', 'success');
+                    }
+                };
+                ep.addEventListener('click', watch);
+                ep.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        watch();
+                    }
+                });
+            });
+        } else {
+            this.episodesSection.style.display = 'none';
+        }
+
+        this.modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        this.modal.focus();
+    }
+
+    closeModal() {
+        this.modal.classList.remove('active');
+        this.modalVideo.src = '';
+        this.currentContent = null;
+        this.isModalOpen = false;
+        document.body.style.overflow = '';
+    }
+
+    watchContent(id, isMovie) {
+        const content = isMovie ? movies.find(m => m.id === id) : series.find(s => s.id === id);
+        if (!content) return;
+
+        if (content.watchUrl) {
+            window.open(content.watchUrl, '_blank');
+            this.showToast('Opening content...', 'success');
+        } else if (!isMovie && content.episodes && content.episodes[0]?.watchUrl) {
+            window.open(content.episodes[0].watchUrl, '_blank');
+            this.showToast('Opening first episode...', 'success');
+        } else {
+            this.showToast('Content not available', 'error');
+        }
+    }
+
+    updateCounts() {
+        this.updateCount(this.moviesCount, movies.length, 'movie');
+        this.updateCount(this.seriesCount, series.length, 'series');
+    }
+
+    updateCount(element, count, type) {
+		if (type === 'series') {
+        	element.textContent = `${count} series`;
+    	} else {
+        	element.textContent = `${count} ${type}${count !== 1 ? 's' : ''}`;
+    	}
+	}
+
+    showToast(message, type = 'success') {
+        this.toast.className = `toast toast--${type} active`;
+        this.toast.querySelector('.toast__icon').innerHTML = 
+            type === 'success' ? '<i class="fas fa-check"></i>' : '<i class="fas fa-exclamation"></i>';
+        this.toast.querySelector('.toast__message').textContent = message;
+
+        setTimeout(() => {
+            this.toast.classList.remove('active');
+        }, 3000);
+    }
+
+    debounce(func, wait) {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+}
+
+let app;
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => { app = new StreamNowApp(); });
+} else {
+    app = new StreamNowApp();
+}
+</script>
+</body>
+</html>
