@@ -1,85 +1,99 @@
-# MovieDesk (Windows Desktop Wrapper)
+# OP Auto Clicker 2.1
 
-Production-ready Windows desktop wrapper for your existing web UI/logic (`index.html` as source of truth).
+A production-grade Windows auto-clicker for **accessibility, testing, and automation**.  
+Replicates the classic OP Auto Clicker UI and behavior using C# / .NET 8 WinForms.
 
-## Why this stack
+> **Disclaimer:** This tool is intended for legitimate automation, accessibility, and
+> testing purposes only. It contains no malware or hidden behavior.
 
-- **WPF + WebView2 (.NET 8)** for native Windows shell behavior with a modern Chromium rendering engine.
-- Fast startup, low complexity, and easy maintenance compared to Electron for this use case.
-- Security controls are centralized in `MainWindow.xaml.cs` (navigation allowlist, new-window policy).
+---
 
-## Project structure
+## Features
 
-```text
-src/
-  MovieDeskApp.sln
-  DesktopHost/
-    App.xaml
-    MainWindow.xaml
-    MainWindow.xaml.cs
-    DesktopHost.csproj
-    Infrastructure/
-      Logging/Logger.cs
-      System/AppPaths.cs
-    WebApp/
-      index.html
-      styles.css
-      app.js
+| Feature | Details |
+|---|---|
+| **Click interval** | Hours / minutes / seconds / milliseconds with precise timing |
+| **Mouse button** | Left, Right, Middle |
+| **Click type** | Single or Double click |
+| **Repeat mode** | Fixed count or unlimited (until stopped) |
+| **Cursor position** | Current location or pick a fixed screen coordinate |
+| **Global hotkey** | Works even when the app is not focused (default: F6) |
+| **Settings persistence** | Auto-saved to `%LOCALAPPDATA%\AutoClicker\settings.json` |
+| **Logging** | Rolling daily logs in `%LOCALAPPDATA%\AutoClicker\logs\` |
+| **DPI-aware** | PerMonitorV2 scaling for crisp rendering at 125–200% |
+| **No admin required** | Runs as standard user |
+
+## Architecture
+
+```
+src/AutoClicker/
+  Core/
+    NativeMethods.cs      # P/Invoke: SendInput, RegisterHotKey, GetCursorPos
+    ClickEngine.cs        # Background click loop with CancellationToken
+    HotkeyService.cs      # Global hotkey registration/unregistration
+    SettingsService.cs     # JSON persistence for user settings
+    LogService.cs          # Thread-safe rolling daily file logger
+    ClickSettings.cs       # Settings data model
+  UI/
+    MainForm.cs            # Main window logic (event wiring only)
+    MainForm.Designer.cs   # Control layout matching OP Auto Clicker 2.1
+    HotkeySettingsDialog.cs# Hotkey capture dialog
+    HelpDialog.cs          # Usage help
+    LocationPickerForm.cs  # Full-screen crosshair coordinate picker
+  Program.cs               # Entry point with global exception handling
+  Properties/
+    app.manifest           # DPI awareness + asInvoker execution level
 ```
 
+**Design principle:** All Win32 interop and click logic lives in `Core/`. The UI layer
+(`MainForm.cs`) contains only control event wiring — no business logic in code-behind.
 
-## Use your existing website as source of truth (not a demo replacement)
+## Requirements
 
-1. Replace files under `src/DesktopHost/WebApp/` with your real website assets (`index.html`, CSS, JS, images).
-2. Keep relative paths (e.g. `./styles.css`, `./app.js`) so they resolve inside the packaged folder.
-3. If you want to run with an external web folder during development, set:
+- **Windows 10 or 11**
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (for building)
+- .NET 8 Desktop Runtime (for running pre-built binaries)
+
+## Build & Run
 
 ```bash
-set MOVIEDESK_WEBAPP_DIR=C:\path\to\your\site
+# Restore + build
+dotnet build src/AutoClicker.sln -c Release
+
+# Run directly
+dotnet run --project src/AutoClicker/AutoClicker.csproj -c Release
 ```
 
-The host maps that folder to `https://app.moviedesk.local/` via WebView2 virtual host mapping.
-
-## Run in development
+## Publish a standalone executable
 
 ```bash
-dotnet restore src/MovieDeskApp.sln
-dotnet run --project src/DesktopHost/DesktopHost.csproj -c Debug
+dotnet publish src/AutoClicker/AutoClicker.csproj \
+  -c Release \
+  -r win-x64 \
+  --self-contained true \
+  /p:PublishSingleFile=true \
+  /p:IncludeNativeLibrariesForSelfExtract=true
 ```
 
-## Build release executable
+Output: `src/AutoClicker/bin/Release/net8.0-windows/win-x64/publish/AutoClicker.exe`
 
-```bash
-dotnet publish src/DesktopHost/DesktopHost.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
+To add a custom icon, place an `.ico` file in `Resources/` and add to the `.csproj`:
+
+```xml
+<PropertyGroup>
+  <ApplicationIcon>Resources\app.ico</ApplicationIcon>
+</PropertyGroup>
 ```
 
-Output: `src/DesktopHost/bin/Release/net8.0-windows10.0.19041.0/win-x64/publish/MovieDeskApp.exe`
+## Usage
 
-## Installer options
+1. **Set interval** — enter hours, minutes, seconds, and milliseconds.
+2. **Choose options** — select mouse button (Left/Right/Middle) and click type (Single/Double).
+3. **Set repeat mode** — fixed count or repeat until stopped.
+4. **Set cursor target** — current mouse position or pick a fixed screen coordinate.
+5. **Press Start (F6)** — clicking begins. Press **F6 again** (or click Stop) to halt.
+6. **Change hotkey** — click "Hotkey setting" to assign a different key combo.
 
-### Option A (recommended for internal distribution): MSIX
+## License
 
-1. Create a **Windows Application Packaging Project** in Visual Studio.
-2. Reference `DesktopHost` as the entry app.
-3. Configure identity, publisher, and signing certificate.
-4. Build `.msix` package.
-
-### Option B (simple external installer): Inno Setup
-
-Use a script to package the published folder and create `MovieDesk-Setup.exe`.
-
-## Hardening notes
-
-- Navigation policy only permits local file content and selected trusted hosts (YouTube + Drive).
-- `window.open` requests are redirected to the default OS browser.
-- Logging is written to `%LOCALAPPDATA%\MovieDeskApp\logs\app.log`.
-- DevTools menu is shown only in Debug builds.
-
-## Polish checklist
-
-- [ ] Add custom app icon + branding assets.
-- [ ] Add keyboard shortcuts (Ctrl+F focus search, Ctrl+R reload).
-- [ ] Add reduced-motion mode and larger text mode.
-- [ ] Add analytics/error telemetry sink.
-- [ ] Validate 125%/150% Windows DPI layout.
-- [ ] Add CI pipeline for build + signing.
+MIT — free to use, modify, and distribute.
